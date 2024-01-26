@@ -4,7 +4,6 @@
 
 ````plantuml
 @startuml
-
 entity "Cuenta de Usuario"{
   * **Id : INT <<AUTO_INCREMENT>> **
   --
