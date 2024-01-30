@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class MiBancoDAO {
-    private final String URL_CUENTA = "jdbc:mysql://localhost:3306/";
+    private final String URL_GLOBAL = "jdbc:mysql://localhost:3306/";
     private final String USUARIO = "jhony";
     private final String PASSWORD = "password";
-    private final String BASE_DATOS="MiBanco3";
-    private final String URL_BD=URL_CUENTA+BASE_DATOS;
+    private final String BASE_DATOS="MiBancoPruebas";
+    private final String URL_BD=URL_GLOBAL+BASE_DATOS;
 
     public Connection conectarBD(String url) {
         // Configuración de la conexión
@@ -36,7 +36,7 @@ public class MiBancoDAO {
 
 	public void crearBD() {
 		final String QUERY="CREATE DATABASE IF NOT EXISTS"+" "+BASE_DATOS;
-         try(Connection conn=conectarBD(URL_BD);
+         try(Connection conn=conectarBD(URL_GLOBAL);
          PreparedStatement ps=conn.prepareStatement(QUERY)){
              ps.executeUpdate();
          }catch (SQLException e){
@@ -63,16 +63,16 @@ public class MiBancoDAO {
         }
     }
 
-    private void crearTablaCuentas(){
+    private void crearTablaCuentasBancarias(){
         final String QUERY="CREATE TABLE IF NOT EXISTS Cuentas("+
-                "NumCuenta INT(16) AUTO_INCREMENT,"+
+                "NumCuenta INT(16) PRIMARY KEY AUTO_INCREMENT,"+
                 "IdCuentaUsuario INT(9) NOT NULL,"+
-                "PRIMARY KEY (NumCuenta,IdCuentaUsuario),"+
                 "FOREIGN KEY (IdCuentaUsuario) REFERENCES CuentasUsuarios(Id)"+
                 ");";
         try(Connection conn=conectarBD(URL_BD);
             PreparedStatement ps=conn.prepareStatement(QUERY)){
             ps.executeUpdate();
+            agregarForeignKeyCuentasUsuario();
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -98,18 +98,40 @@ public class MiBancoDAO {
         }
     }
 
+    private void ingresar(int numCuenta, int cantidad){
+        final String QUERY="UPDATE Cuentas SET Saldo=Saldo+? WHERE NumCuenta=?";
+        try(Connection conn=conectarBD(URL_GLOBAL);
+        PreparedStatement ps=conn.prepareStatement(QUERY)){
+            ps.setInt(1,cantidad);
+            ps.setInt(2,numCuenta);
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
 
-    public static void main(String[] args) {
-        MiBancoDAO mb=new MiBancoDAO();
-        mb.crearBD();
-        mb.crearTablaCuentasUsuarios();
-        mb.crearTablaCuentas();
-        mb.agregarForeignKeyCuentasUsuario();
+        }
     }
-    /*Cuentas{
-    * **NumCuenta : INT <<AUTO_INCREMENT>>**
-    * **IdCuentaUsuario : INT <<FK Cuenta de Usuario>>**
-    --
-    * Saldo : Double
-}*/
+
+    private void retirar(int numCuenta, int cantidad){
+        final String QUERY="UPDATE Cuentas SET Saldo=Saldo-? WHERE NumCuenta=?";
+        try(Connection conn=conectarBD(URL_GLOBAL);
+            PreparedStatement ps=conn.prepareStatement(QUERY)){
+            ps.setInt(1,cantidad);
+            ps.setInt(2,numCuenta);
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
+
+        }
+    }
+
+    private void hacerBizum(int numCuenta, int cantidad, int numCuentaReceptor){
+        retirar(numCuenta,cantidad);
+        ingresar(numCuentaReceptor,cantidad);
+    }
+    public static void main(String[] args) {
+        MiBancoDAO banco=new MiBancoDAO();
+        banco.crearBD();
+        banco.crearTablaCuentasUsuarios();
+        banco.crearTablaCuentasBancarias();
+    }
 }

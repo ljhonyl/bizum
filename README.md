@@ -18,8 +18,8 @@ entity "Cuenta de Usuario"{
 
 entity Cuentas{
     * **NumCuenta : INT <<AUTO_INCREMENT>>**
-    * **IdCuentaUsuario : INT <<FK Cuenta de Usuario>>**
     --
+    * IdCuentaUsuario : INT <<FK Cuenta de Usuario>>
     * Saldo : Double
 }
 "Cuenta de Usuario" ||..|{ Cuentas
