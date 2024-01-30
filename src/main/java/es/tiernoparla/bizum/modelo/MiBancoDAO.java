@@ -1,2 +1,4 @@
-package es.tiernoparla.bizum.modelo;public class MiBancoDAO {
+package es.tiernoparla.bizum.modelo;
+import java.sql.Connection;
+public class MiBancoDAO {
 }

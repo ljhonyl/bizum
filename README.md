@@ -13,7 +13,7 @@ entity "Cuenta de Usuario"{
   SegundoNombre : VARCHAR
   *Apellidos : VARCHAR
   *Telefono : VARCHAR
-  *Contrasena : VARCHAR
+  *Contraseña : VARCHAR
   CuentaBizum : VARCHAR <<FK Cuentas>>
 }
 
@@ -33,7 +33,7 @@ CuentaUsuario(Id, Dni, Nombre, SegundoNombre, Apellidos, Telefono, Contrasena, C
 
 Cuentas(NumCuenta, IdCuentaUsuario, Saldo) --> NumCuenta e IdCuentaUsuario actúan como clave primaria. Saldo no puede ser nulo
 
-## Diagrama de casos de uso
+## Diagrama de casos de uso y actividad
 
 ````plantuml
 @startuml
@@ -60,5 +60,77 @@ uc3 ..> uc6 :include
 uc4 ..> uc6 :include
 uc6 ..>uc7 :include
 uc4 ..> uc5 :include
+@enduml
+````
+
+### Caso de uso hacer bizum
+````plantuml
+@startuml
+(*) --> "Iniciar sesión"
+
+if "Registrado" then
+  -->[true] "Hacer bizum"
+  --> "Ingresar teléfono del beneficiario"
+  --> (*)
+else
+  -->[false] "Registrarse"
+  -->"Iniciar sesión"
+endif
+@enduml
+````
+
+## Prototipado
+
+
+# DISEÑO
+
+### Diagrama de componentes
+
+````plantuml
+@startuml
+package vista{
+  [ InicioViewController ] <<JavaFX>>
+  [ InicioView ] <<JavaFX>>
+  [ VistaGlobalViewController ] <<JavaFX>>
+  [ VistaGlobalView ] <<JavaFX>>
+}
+package controlador{
+  [ BancoController ] <<Java>>
+}
+package modelo{
+  [ BancoDAO ] <<Java>>
+}
+@enduml
+
+[ InicioView ] <.. [ InicioViewController ] :use
+[ InicioViewController ] ..> [ BancoController ] :use
+[ VistaGlobalView ] <.. [ VistaGlobalViewController ] :use
+[ VistaGlobalViewController ] ..> [ BancoController ] :use 
+[ BancoController ] ..> DAO :use
+[ BancoDAO ] ..|> DAO
+````
+
+### Diagrama de clases
+
+````plantuml
+@startuml
+package es.tiernoparla.bizum.modelo{
+  class CuentaUsuario{
+    - id: int
+    - dni: String
+    - nombre: String
+    - segundoNombre: String
+    - apellidos: String
+    - telefono: int
+    - contraseña: String
+  }
+
+  class CuentaBancaria{
+    - numCuenta: int
+    - IdCuentaUsuario: int
+    - Saldo : Double
+  }
+  CuentaUsuario "1..*" o--- "1..1"CuentaBancaria 
+}
 @enduml
 ````
