@@ -7,6 +7,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+/**
+ * Clase que maneja las conexiones con la base de datos
+ */
 public class MiBancoDAO {
     private final String URL_GLOBAL = "jdbc:mysql://localhost:3306/";
     private final String USUARIO = "jhony";
