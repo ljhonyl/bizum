@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="601.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.LoginViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#registrarse" prefHeight="601.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.RegistroViewController">
    <children>
       <Label layoutX="63.0" layoutY="49.0" text="REGISTRO">
          <font>
             <Font name="Liberation Serif Bold Italic" size="36.0" />
          </font>
       </Label>
-      <TextField layoutX="63.0" layoutY="135.0" />
-      <TextField layoutX="318.0" layoutY="135.0" />
-      <TextField layoutX="567.0" layoutY="135.0" />
-      <TextField layoutX="63.0" layoutY="226.0" prefHeight="26.0" prefWidth="273.0" />
+      <TextField fx:id="txfDni" layoutX="63.0" layoutY="135.0" />
+      <TextField fx:id="txfNombre" layoutX="318.0" layoutY="135.0" />
+      <TextField fx:id="txfSegundoNombre" layoutX="567.0" layoutY="135.0" />
+      <TextField fx:id="txfApellidos" layoutX="63.0" layoutY="246.0" prefHeight="26.0" prefWidth="273.0" />
       <Label layoutX="63.0" layoutY="109.0" text="DNI/NIE" />
       <Label layoutX="318.0" layoutY="109.0" text="Nombre" />
       <Label layoutX="567.0" layoutY="109.0" text="Segundo nombre" />
-      <Label layoutX="63.0" layoutY="200.0" text="Apellidos" />
+      <Label layoutX="61.0" layoutY="218.0" text="Apellidos" />
+      <Label layoutX="426.0" layoutY="218.0" text="Telefono" />
+      <Label layoutX="61.0" layoutY="318.0" text="Contraseña" />
+      <TextField fx:id="txfTelefono" layoutX="426.0" layoutY="246.0" />
+      <TextField fx:id="txfContrasena" layoutX="61.0" layoutY="346.0" />
+      <Button fx:id="btnRegistrase" layoutX="689.0" layoutY="504.0" mnemonicParsing="false" onMouseClicked="#registrarse" prefHeight="26.0" prefWidth="155.0" text="Registrarse" />
    </children>
 </AnchorPane>

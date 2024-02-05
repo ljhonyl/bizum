@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="629.0" prefWidth="870.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.LoginViewController">
    <children>
-      <Button fx:id="btnIniciarSesion" layoutX="222.0" layoutY="423.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="427.0" text="Iniciar Sesi�n" />
+      <Button fx:id="btnIniciarSesion" layoutX="222.0" layoutY="423.0" mnemonicParsing="false" onMouseClicked="#irPantallaMenu" prefHeight="38.0" prefWidth="427.0" text="Iniciar Sesi�n" />
       <Button fx:id="btnRegistrase" layoutX="222.0" layoutY="479.0" mnemonicParsing="false" onMouseClicked="#irPantallaRegistro" prefHeight="38.0" prefWidth="427.0" text="Registrarse" />
       <Label layoutX="326.0" layoutY="53.0" prefHeight="97.0" prefWidth="219.0" text="MiBanco" textAlignment="CENTER">
          <font>

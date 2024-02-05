@@ -15,7 +15,12 @@ public class LoginViewController extends ViewController{
     private Button btnRegistrase;
 
     @FXML
+    void irPantallaMenu(MouseEvent event) throws IOException{
+        bizumController.cargarVista(IView.VISTA_MENU);
+    }
+
+    @FXML
     void irPantallaRegistro(MouseEvent event) throws IOException {
-        bizumController.cambiarVista(IView.VISTA_REGISTRO);
+        bizumController.cargarVista(IView.VISTA_REGISTRO);
     }
 }
