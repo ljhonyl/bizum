@@ -15,8 +15,8 @@
             <Font name="Droid Serif Bold Italic" size="48.0" />
          </font>
       </Label>
-      <TextField layoutX="222.0" layoutY="228.0" prefHeight="38.0" prefWidth="427.0" />
-      <TextField layoutX="222.0" layoutY="315.0" prefHeight="38.0" prefWidth="427.0" />
+      <TextField fx:id="txfDni" layoutX="222.0" layoutY="228.0" prefHeight="38.0" prefWidth="427.0" />
+      <TextField fx:id="txfPassword" layoutX="222.0" layoutY="315.0" prefHeight="38.0" prefWidth="427.0" />
       <Label layoutX="222.0" layoutY="196.0" prefHeight="18.0" prefWidth="124.0" text="Correo electr�nico" />
       <Label layoutX="222.0" layoutY="285.0" text="Contraseña" />
    </children>

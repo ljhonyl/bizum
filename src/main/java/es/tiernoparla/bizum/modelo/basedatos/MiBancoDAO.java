@@ -1,11 +1,8 @@
 package es.tiernoparla.bizum.modelo.basedatos;
 
-import es.tiernoparla.bizum.modelo.Usuario;
+import es.tiernoparla.bizum.modelo.CuentaUsuario;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Clase que maneja las conexiones con la base de datos
@@ -16,6 +13,12 @@ public class MiBancoDAO {
     private final String PASSWORD = "password";
     private final String BASE_DATOS="MiBancoPruebas";
     private final String URL_BD=URL_GLOBAL+BASE_DATOS;
+
+    public MiBancoDAO(){
+        crearBD();
+        crearTablaCuentasUsuarios();
+        crearTablaCuentasUsuarios();
+    }
 
     public Connection conectarBD(String url) {
         // Configuración de la conexión
@@ -94,7 +97,8 @@ public class MiBancoDAO {
         }
     }
 
-    private void agregarCuentaUsuario(Usuario usuario){
+    public boolean agregarCuentaUsuario(CuentaUsuario usuario){
+        boolean exito=false;
         final String QUERY="INSERT INTO CuentasUsuarios(Dni, Nombre, SegundoNombre, Apellidos, Telefono,  Contrasena) VALUES (?,?,?,?,?,?)";
         try(Connection conn=conectarBD(URL_BD);
             PreparedStatement ps=conn.prepareStatement(QUERY)){
@@ -105,8 +109,12 @@ public class MiBancoDAO {
             ps.setInt(5,usuario.getTelefono());
             ps.setString(6,usuario.getContrasena());
             ps.executeUpdate();
+            exito=true;
         }catch (SQLException e){
             e.printStackTrace();
+        }
+        finally {
+            return exito;
         }
     }
 
@@ -152,10 +160,22 @@ public class MiBancoDAO {
         retirar(numCuenta,cantidad);
         ingresar(numCuentaReceptor,cantidad);
     }
-    public static void main(String[] args) {
-        MiBancoDAO banco=new MiBancoDAO();
-        //Usuario u=new Usuario("12345678A", "NOMBRE", "SEGUNDO","apellidos",698754321,"1234");
-        //banco.agregarCuentaUsuario(u);
-        banco.agregarCuentaBancaria(1,50);
+
+    /**
+     * Select de contraseña para el inicio de sesion pasandole el dni
+     */
+    public String comprobarContrasena(String dni){
+        String password="";
+        final String QUERY="SELECT Contrasena FROM CuentasUsuarios WHERE Dni=?";
+        try(Connection conn=conectarBD(URL_BD);
+        PreparedStatement ps=conn.prepareStatement(QUERY)){
+            ps.setString(1,dni);
+            ResultSet rs=ps.executeQuery();
+            rs.next();
+            password=rs.getString("Contrasena");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return password;
     }
 }

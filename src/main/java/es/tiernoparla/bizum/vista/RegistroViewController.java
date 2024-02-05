@@ -1,5 +1,6 @@
 package es.tiernoparla.bizum.vista;
 
+import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -36,29 +37,23 @@ public class RegistroViewController extends ViewController{
         crearCuenta();
     }
 
-    private void mostrarMensaje(String titulo, String contenido) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(contenido);
-        alert.showAndWait();
-    }
+
 
     private void crearCuenta() throws IOException {
-        if(!(serNulo(txfDni) || serNulo(txfNombre) || serNulo(txfApellidos) || serNulo(txfTelefono) || serNulo(txfContrasena))){
-            mostrarMensaje("AVISO","Cuenta Registrada");
-            bizumController.cargarVista(IView.VISTA_LOGIN);
+        boolean exito;
+        if(!(estarVacio(txfDni) || estarVacio(txfNombre) || estarVacio(txfApellidos) || estarVacio(txfTelefono) || estarVacio(txfContrasena))){
+            CuentaUsuario cuentaUsuario=new CuentaUsuario(txfDni.getText().toString(),txfNombre.getText().toString(),txfApellidos.getText().toString(),Integer.parseInt(txfTelefono.getText().toString()),txfContrasena.getText().toString());
+            if (exito= bizumController.addCuentaUsuario(cuentaUsuario)){
+                mostrarMensaje("AVISO","Cuenta Registrada");
+                bizumController.cargarVista(IView.VISTA_LOGIN);
+            }
+            else{
+                mostrarMensaje("ERROR", "Ocurrio un problema durante la operacion");
+            }
         }
         else{
             mostrarMensaje("ERROR", "Faltan campos obligatorios");
         }
     }
 
-    private boolean serNulo(TextField cajaTexto){
-        boolean nulo=true;
-        if(!cajaTexto.getText().toString().equals("")){
-            nulo=false;
-        }
-        return nulo;
-    }
 }

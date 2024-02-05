@@ -1,6 +1,6 @@
 package es.tiernoparla.bizum.modelo;
 
-public class Usuario {
+public class CuentaUsuario {
     private String dni;
     private String nombre;
     private String segundoNombre;
@@ -9,7 +9,7 @@ public class Usuario {
     private String contrasena;
     private String cuentaBizum;
 
-    public Usuario(String dni, String nombre, String segundoNombre, String apellidos, int telefono, String contrasena){
+    public CuentaUsuario(String dni, String nombre, String segundoNombre, String apellidos, int telefono, String contrasena){
         this.dni = dni;
         this.nombre = nombre;
         this.segundoNombre = segundoNombre;
@@ -18,7 +18,7 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
-    public Usuario(String dni, String nombre, String apellidos, int telefono, String contrasena){
+    public CuentaUsuario(String dni, String nombre, String apellidos, int telefono, String contrasena){
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
