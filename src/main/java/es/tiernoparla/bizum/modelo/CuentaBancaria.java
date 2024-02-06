@@ -1,4 +1,5 @@
 package es.tiernoparla.bizum.modelo;
 
-public class Cliente {
+public class CuentaBancaria {
+
 }

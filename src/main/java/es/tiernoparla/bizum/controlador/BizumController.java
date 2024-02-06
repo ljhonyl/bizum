@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,7 +23,12 @@ public class BizumController extends Application {
         miBancoDAO=new MiBancoDAO();
     }
 
-    public ViewController cargarVista(String ficheroView) throws IOException{
+    /**
+     * Se carga la ventana principal
+     * @param ficheroView ruta del fxml
+     * @throws IOException
+     */
+    public void cargarVista(String ficheroView) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(ficheroView));
         Parent root = (Parent) fxmlLoader.load();
         ViewController viewController = fxmlLoader.<ViewController>getController();
@@ -31,7 +37,20 @@ public class BizumController extends Application {
         currentStage.close();
         currentStage.setScene(scene);
         currentStage.show();
-        return viewController;
+    }
+
+    /**
+     * Se crea una ventana secundaria con padre currentStage
+     * @throws IOException
+     */
+    public void crearVentanaSecundaria() throws IOException {
+        Parent root = (Parent) FXMLLoader.load(App.class.getResource(IView.VISTA_SELECCION_CUENTAS));
+        Stage ventanaSecundaria = new Stage();
+        ventanaSecundaria.initModality(Modality.WINDOW_MODAL);
+        ventanaSecundaria.initOwner(currentStage);
+        Scene scene = new Scene(root);
+        ventanaSecundaria.setScene(scene);
+        ventanaSecundaria.show();
     }
 
     @Override
@@ -50,8 +69,12 @@ public class BizumController extends Application {
         return exito;
     }
 
-
-    public String comprobarContrasena(String contrasena) {
-        return miBancoDAO.comprobarContrasena(contrasena);
+    /**
+     * Llama al modelo y le pasa el dni. Retorna la contraseña asociada a ese dni
+     * @param dni variable necesaria para ejecutar el metodo en el modelo
+     * @return devuelve la contraseña asociada al dni
+     */
+    public String comprobarContrasena(String dni) {
+        return miBancoDAO.comprobarContrasena(dni);
     }
 }

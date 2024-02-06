@@ -24,8 +24,9 @@ public class LoginViewController extends ViewController{
     void irPantallaMenu(MouseEvent event) throws IOException {
         /*if (!(estarVacio(txfDni)|| estarVacio(txfPassword))) {
             String contrasena=bizumController.comprobarContrasena(txfDni.getText().toString());
+            System.out.println(contrasena);
             if(txfPassword.getText().toString().equals(contrasena)){
-
+                bizumController.cargarVista(IView.VISTA_MENU);
             }
             else{
                 mostrarMensaje("ERROR","Datos de acceso incorrectos");
