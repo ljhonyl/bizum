@@ -188,29 +188,33 @@ public class MiBancoDAO {
     /**
      * Select de contraseña para el inicio de sesion pasandole el dni
      */
-    public String comprobarContrasena(String dni){
-        String password="";
-        final String QUERY="SELECT Contrasena FROM CuentasUsuarios WHERE Dni=?";
+    public List<String> comprobarContrasena(String dni){
+        List<String> datos=new ArrayList<String>();
+        final String QUERY="SELECT Id ,Contrasena FROM CuentasUsuarios WHERE Dni=?";
         try(Connection conn=conectarBD(URL_BD);
         PreparedStatement ps=conn.prepareStatement(QUERY)){
             ps.setString(1,dni);
             ResultSet rs=ps.executeQuery();
             rs.next();
-            password=rs.getString("Contrasena");
+            int idUsuario=rs.getInt("Id");
+            String password=rs.getString("Contrasena");
+            datos.add(String.valueOf(idUsuario));
+            datos.add(password);
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return password;
+        return datos;
     }
 
-    public List<CuentaBancaria> getCuentasBancarias() {
-        final String QUERY = "SELECT NumCuenta, Saldo FROM Cuentas";
+    public List<CuentaBancaria> getCuentasBancarias(int idUsuario) {
+        final String QUERY = "SELECT NumCuenta, Saldo FROM Cuentas WHERE=?";
         List<CuentaBancaria> cuentas=new ArrayList<CuentaBancaria>();
         try (Connection conn = conectarBD(URL_BD);
              PreparedStatement ps = conn.prepareStatement(QUERY);){
+            ps.setInt(1,idUsuario);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                CuentaBancaria cuenta=new CuentaBancaria(rs.getString("NumCuenta"),rs.getDouble("Saldo"));
+                CuentaBancaria cuenta=new CuentaBancaria(rs.getInt("NumCuenta"),rs.getDouble("Saldo"));
                 cuentas.add(cuenta);
             }
         } catch (SQLException e) {

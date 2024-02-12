@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
+import java.util.List;
 
 public class LoginViewController extends ViewController{
 
@@ -22,16 +23,18 @@ public class LoginViewController extends ViewController{
     private TextField txfPassword;
     @FXML
     void irPantallaMenu(MouseEvent event) throws IOException {
-        /*if (!(estarVacio(txfDni)|| estarVacio(txfPassword))) {
-            String contrasena=bizumController.comprobarContrasena(txfDni.getText().toString());
-            System.out.println(contrasena);
+        if (!(estarVacio(txfDni)|| estarVacio(txfPassword))) {
+            List<String> datos=bizumController.comprobarContrasena(txfDni.getText().toString());
+            int idUsuario=Integer.parseInt(datos.get(0));
+            String contrasena=datos.get(1);
             if(txfPassword.getText().toString().equals(contrasena)){
+                bizumController.setIdUsuario(idUsuario);
                 bizumController.cargarVista(IView.VISTA_MENU);
             }
             else{
                 mostrarMensaje("ERROR","Datos de acceso incorrectos");
             }
-        }*/
+        }
         bizumController.cargarVista(IView.VISTA_MENU);
     }
 

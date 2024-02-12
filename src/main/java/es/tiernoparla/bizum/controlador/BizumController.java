@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class BizumController extends Application {
+    private int idUsuario=1;
     private Stage currentStage;
     private MiBancoDAO miBancoDAO;
 
@@ -76,11 +77,19 @@ public class BizumController extends Application {
      * @param dni variable necesaria para ejecutar el metodo en el modelo
      * @return devuelve la contraseña asociada al dni
      */
-    public String comprobarContrasena(String dni) {
+    public List<String> comprobarContrasena(String dni) {
         return miBancoDAO.comprobarContrasena(dni);
     }
 
     public List<CuentaBancaria> getCuentasBancarias() {
-        return miBancoDAO.getCuentasBancarias();
+        return miBancoDAO.getCuentasBancarias(idUsuario);
+    }
+
+    public int getIdUsuario(){
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario){
+        this.idUsuario=idUsuario;
     }
 }
