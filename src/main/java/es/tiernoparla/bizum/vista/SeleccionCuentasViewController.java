@@ -1,11 +1,18 @@
 package es.tiernoparla.bizum.vista;
 
+import es.tiernoparla.bizum.modelo.CuentaBancaria;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.util.List;
 
 public class SeleccionCuentasViewController extends ViewController{
 
@@ -16,7 +23,13 @@ public class SeleccionCuentasViewController extends ViewController{
     private Button btnOk;
 
     @FXML
-    private TableColumn<?,?> tblColNumCuenta;
+    private TableColumn<?, ?> colNumCuenta;
+
+    @FXML
+    private TableColumn<?, ?> colSaldo;
+
+    @FXML
+    private TableView<?> tblCuentasBancarias;
 
     @FXML
     void cancelar(MouseEvent event) {
@@ -26,7 +39,21 @@ public class SeleccionCuentasViewController extends ViewController{
 
     @FXML
     void seleccionarCuenta(MouseEvent event) {
-        mostrarMensaje("BIEN HECHO","BIEN HECHO");
+
     }
 
+    private ObservableList cuentasBancarias;
+
+    @FXML
+    void  initialize(){
+        cuentasBancarias= FXCollections.observableArrayList();
+
+        colNumCuenta.setCellValueFactory(new PropertyValueFactory<>("numCuenta"));
+        colSaldo.setCellValueFactory(new PropertyValueFactory<>("saldo"));
+    }
+
+    public void cargarCuentas(List<CuentaBancaria> cuentasBancarias){
+        this.cuentasBancarias.addAll(cuentasBancarias);
+        this.tblCuentasBancarias.setItems(this.cuentasBancarias);
+    }
 }

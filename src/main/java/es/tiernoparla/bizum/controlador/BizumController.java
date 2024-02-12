@@ -1,6 +1,7 @@
 package es.tiernoparla.bizum.controlador;
 
 import es.tiernoparla.bizum.App;
+import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import es.tiernoparla.bizum.modelo.basedatos.MiBancoDAO;
 import es.tiernoparla.bizum.vista.IView;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.List;
 
 public class BizumController extends Application {
     private Stage currentStage;
@@ -76,5 +78,9 @@ public class BizumController extends Application {
      */
     public String comprobarContrasena(String dni) {
         return miBancoDAO.comprobarContrasena(dni);
+    }
+
+    public List<CuentaBancaria> getCuentasBancarias() {
+        return miBancoDAO.getCuentasBancarias();
     }
 }

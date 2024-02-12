@@ -1,8 +1,11 @@
 package es.tiernoparla.bizum.modelo.basedatos;
 
+import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Clase que maneja las conexiones con la base de datos
@@ -17,7 +20,7 @@ public class MiBancoDAO {
     public MiBancoDAO(){
         crearBD();
         crearTablaCuentasUsuarios();
-        crearTablaCuentasUsuarios();
+        crearTablaCuentasBancarias();
     }
 
     public Connection conectarBD(String url) {
@@ -80,10 +83,31 @@ public class MiBancoDAO {
                 ");";
         try(Connection conn=conectarBD(URL_BD);
             PreparedStatement ps=conn.prepareStatement(QUERY)){
-            ps.executeUpdate();
-            agregarForeignKeyCuentasUsuario();
+            if(!(tablaCuentasUsuariosExiste())){
+                ps.executeUpdate();
+                agregarForeignKeyCuentasUsuario();
+            }
         }catch (SQLException e){
             e.printStackTrace();
+        }
+    }
+
+    private boolean tablaCuentasUsuariosExiste(){
+        boolean existe=false;
+        final String QUERY="SHOW TABLES LIKE ?";
+        try(Connection conn=conectarBD(URL_BD);
+        PreparedStatement ps=conn.prepareStatement(QUERY)) {
+            ps.setString(1,"Cuentas");
+            ResultSet rs=ps.executeQuery();
+            if (rs.next()){
+                existe=true;
+            }
+        }
+        catch (SQLException e){
+
+        }
+        finally {
+            return existe;
         }
     }
 
@@ -177,5 +201,20 @@ public class MiBancoDAO {
             e.printStackTrace();
         }
         return password;
+    }
+
+    public List<CuentaBancaria> getCuentasBancarias() {
+        final String QUERY = "SELECT NumCuenta, Saldo FROM Cuentas";
+        List<CuentaBancaria> cuentas=new ArrayList<CuentaBancaria>();
+        try (Connection conn = conectarBD(URL_BD);
+             PreparedStatement ps = conn.prepareStatement(QUERY);){
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                CuentaBancaria cuenta=new CuentaBancaria(rs.getString("NumCuenta"),rs.getDouble("Saldo"));
+                cuentas.add(cuenta);
+            }
+        } catch (SQLException e) {
+        }
+        return cuentas;
     }
 }
