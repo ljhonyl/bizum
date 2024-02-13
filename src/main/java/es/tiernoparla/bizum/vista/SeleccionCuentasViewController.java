@@ -19,7 +19,7 @@ public class SeleccionCuentasViewController extends ViewController{
     private Button btnCancelar;
 
     @FXML
-    private Button btnOk;
+    private Button btnConfirmar;
 
     @FXML
     private TableColumn<?, ?> colNumCuenta;
@@ -37,24 +37,40 @@ public class SeleccionCuentasViewController extends ViewController{
     }
 
     @FXML
-    void seleccionarCuenta(MouseEvent event) {
-
+    void confirmar(MouseEvent event) {
+        seleccionarCuenta();
+        if(cuenta!=null){
+            Stage stage = (Stage) btnCancelar.getScene().getWindow();
+            stage.close();
+        }
+        else{
+            mostrarMensaje("ERROR","No ha seleecionado ninguna cuenta");
+        }
     }
 
-    private ObservableList cuentasBancarias;
 
     @FXML
     void  initialize(){
         cuentasBancarias= FXCollections.observableArrayList();
 
-        colNumCuenta.setCellValueFactory(new PropertyValueFactory<>("numCuenta"));
-        colSaldo.setCellValueFactory(new PropertyValueFactory<>("saldo"));
-
-        cargarCuentas(bizumController.getCuentasBancarias());
+        colNumCuenta.setCellValueFactory(new PropertyValueFactory<>("NumCuenta"));
+        colSaldo.setCellValueFactory(new PropertyValueFactory<>("Saldo"));
     }
+
+    /*---------------------------*/
+    private ObservableList cuentasBancarias;
+    private CuentaBancaria cuenta;
 
     public void cargarCuentas(List<CuentaBancaria> cuentasBancarias){
         this.cuentasBancarias.addAll(cuentasBancarias);
         this.tblCuentasBancarias.setItems(this.cuentasBancarias);
+    }
+
+    private void seleccionarCuenta(){
+        cuenta = (CuentaBancaria) tblCuentasBancarias.getSelectionModel().getSelectedItem();
+    }
+
+    public CuentaBancaria getCuenta() {
+        return cuenta;
     }
 }

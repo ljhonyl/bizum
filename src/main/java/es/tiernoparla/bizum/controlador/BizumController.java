@@ -31,7 +31,7 @@ public class BizumController extends Application {
      * @param ficheroView ruta del fxml
      * @throws IOException
      */
-    public void cargarVista(String ficheroView) throws IOException{
+    public ViewController cargarVista(String ficheroView) throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(ficheroView));
         Parent root = (Parent) fxmlLoader.load();
         ViewController viewController = fxmlLoader.<ViewController>getController();
@@ -40,20 +40,24 @@ public class BizumController extends Application {
         currentStage.close();
         currentStage.setScene(scene);
         currentStage.show();
+        return viewController;
     }
 
     /**
      * Se crea una ventana secundaria con padre currentStage
      * @throws IOException
      */
-    public void crearVentanaSecundaria() throws IOException {
-        Parent root = (Parent) FXMLLoader.load(App.class.getResource(IView.VISTA_SELECCION_CUENTAS));
+    public ViewController crearVentanaSecundaria() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(IView.VISTA_SELECCION_CUENTAS));
+        Parent root = (Parent) fxmlLoader.load();
+        ViewController viewController = fxmlLoader.<ViewController>getController();
         Stage ventanaSecundaria = new Stage();
         ventanaSecundaria.initModality(Modality.WINDOW_MODAL);
         ventanaSecundaria.initOwner(currentStage);
         Scene scene = new Scene(root);
         ventanaSecundaria.setScene(scene);
         ventanaSecundaria.show();
+        return viewController;
     }
 
     @Override
@@ -91,5 +95,9 @@ public class BizumController extends Application {
 
     public void setIdUsuario(int idUsuario){
         this.idUsuario=idUsuario;
+    }
+
+    public void retirar(int numeroCuenta, double cantidad) {
+        miBancoDAO.retirar(numeroCuenta,cantidad);
     }
 }

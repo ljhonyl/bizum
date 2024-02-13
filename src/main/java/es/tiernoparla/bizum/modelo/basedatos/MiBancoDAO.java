@@ -45,15 +45,15 @@ public class MiBancoDAO {
         }
     }
 
-	public void crearBD() {
-		final String QUERY="CREATE DATABASE IF NOT EXISTS"+" "+BASE_DATOS;
-         try(Connection conn=conectarBD(URL_GLOBAL);
-         PreparedStatement ps=conn.prepareStatement(QUERY)){
-             ps.executeUpdate();
-         }catch (SQLException e){
-             System.out.println("Error al crear la base de datos");
-         }
-	}
+    public void crearBD() {
+        final String QUERY="CREATE DATABASE IF NOT EXISTS"+" "+BASE_DATOS;
+        try(Connection conn=conectarBD(URL_GLOBAL);
+            PreparedStatement ps=conn.prepareStatement(QUERY)){
+            ps.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("Error al crear la base de datos");
+        }
+    }
 
     public void crearTablaCuentasUsuarios(){
         final String QUERY="CREATE TABLE IF NOT EXISTS CuentasUsuarios("+
@@ -96,7 +96,7 @@ public class MiBancoDAO {
         boolean existe=false;
         final String QUERY="SHOW TABLES LIKE ?";
         try(Connection conn=conectarBD(URL_BD);
-        PreparedStatement ps=conn.prepareStatement(QUERY)) {
+            PreparedStatement ps=conn.prepareStatement(QUERY)) {
             ps.setString(1,"Cuentas");
             ResultSet rs=ps.executeQuery();
             if (rs.next()){
@@ -157,7 +157,7 @@ public class MiBancoDAO {
     private void ingresar(int numCuenta, int cantidad){
         final String QUERY="UPDATE Cuentas SET Saldo=Saldo+? WHERE NumCuenta=?";
         try(Connection conn=conectarBD(URL_BD);
-        PreparedStatement ps=conn.prepareStatement(QUERY)){
+            PreparedStatement ps=conn.prepareStatement(QUERY)){
             ps.setInt(1,cantidad);
             ps.setInt(2,numCuenta);
             ps.executeUpdate();
@@ -167,11 +167,11 @@ public class MiBancoDAO {
         }
     }
 
-    private void retirar(int numCuenta, int cantidad){
+    public void retirar(int numCuenta, double cantidad){
         final String QUERY="UPDATE Cuentas SET Saldo=Saldo-? WHERE NumCuenta=?";
         try(Connection conn=conectarBD(URL_BD);
             PreparedStatement ps=conn.prepareStatement(QUERY)){
-            ps.setInt(1,cantidad);
+            ps.setDouble(   1,cantidad);
             ps.setInt(2,numCuenta);
             ps.executeUpdate();
         }
@@ -192,7 +192,7 @@ public class MiBancoDAO {
         List<String> datos=new ArrayList<String>();
         final String QUERY="SELECT Id ,Contrasena FROM CuentasUsuarios WHERE Dni=?";
         try(Connection conn=conectarBD(URL_BD);
-        PreparedStatement ps=conn.prepareStatement(QUERY)){
+            PreparedStatement ps=conn.prepareStatement(QUERY)){
             ps.setString(1,dni);
             ResultSet rs=ps.executeQuery();
             rs.next();
@@ -207,7 +207,7 @@ public class MiBancoDAO {
     }
 
     public List<CuentaBancaria> getCuentasBancarias(int idUsuario) {
-        final String QUERY = "SELECT NumCuenta, Saldo FROM Cuentas WHERE=?";
+        final String QUERY = "SELECT NumCuenta, Saldo FROM Cuentas WHERE IdCuentaUsuario=?";
         List<CuentaBancaria> cuentas=new ArrayList<CuentaBancaria>();
         try (Connection conn = conectarBD(URL_BD);
              PreparedStatement ps = conn.prepareStatement(QUERY);){
@@ -218,6 +218,7 @@ public class MiBancoDAO {
                 cuentas.add(cuenta);
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return cuentas;
     }

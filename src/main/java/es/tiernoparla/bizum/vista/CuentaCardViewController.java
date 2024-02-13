@@ -4,14 +4,15 @@ import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class CuentaCardViewController {
+public class CuentaCardViewController extends ViewController{
     @FXML
-    private Label field1Label;
+    private Label lblNumCuenta;
+
     @FXML
-    private Label field2Label;
+    private Label lblSaldo;
 
     public void initialize(CuentaBancaria cuenta) {
-        field1Label.setText("NumCuenta: " + cuenta.getNumCuenta());
-        field2Label.setText("Saldo: " + cuenta.getSaldo());
+        lblNumCuenta.setText(String.valueOf(cuenta.getNumCuenta()));
+        lblSaldo.setText(String.valueOf(cuenta.getSaldo()));
     }
 }

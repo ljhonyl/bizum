@@ -11,4 +11,5 @@ module es.tiernoparla.bizum {
     opens es.tiernoparla.bizum.vista to javafx.fxml;
     exports es.tiernoparla.bizum.controlador;
     opens es.tiernoparla.bizum.controlador to javafx.fxml;
+    opens es.tiernoparla.bizum.modelo to javafx.base;
 }
