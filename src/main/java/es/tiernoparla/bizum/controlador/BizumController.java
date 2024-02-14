@@ -18,7 +18,7 @@ import java.sql.Connection;
 import java.util.List;
 
 public class BizumController extends Application {
-    private int idUsuario=1;
+    private int idUsuario;
     private Stage currentStage;
     private MiBancoDAO miBancoDAO;
 
@@ -99,5 +99,18 @@ public class BizumController extends Application {
 
     public void retirar(int numeroCuenta, double cantidad) {
         miBancoDAO.retirar(numeroCuenta,cantidad);
+    }
+
+    public boolean hacerBizum(int numero, double cantidad) {
+        boolean exitosa= miBancoDAO.hacerBizum(idUsuario,cantidad,numero);
+        return exitosa;
+    }
+
+    public void ingresar(int numCuenta, double dineroARetirar) {
+        miBancoDAO.ingresar(numCuenta,dineroARetirar);
+    }
+
+    public void seleccionarCuentaBizum(int numeroCuenta) {
+        miBancoDAO.seleccionarCuentaBizum(numeroCuenta, idUsuario);
     }
 }

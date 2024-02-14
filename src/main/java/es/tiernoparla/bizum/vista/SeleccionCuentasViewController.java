@@ -38,7 +38,6 @@ public class SeleccionCuentasViewController extends ViewController{
 
     @FXML
     void confirmar(MouseEvent event) {
-        seleccionarCuenta();
         if(cuenta!=null){
             Stage stage = (Stage) btnCancelar.getScene().getWindow();
             stage.close();
@@ -48,6 +47,10 @@ public class SeleccionCuentasViewController extends ViewController{
         }
     }
 
+    @FXML
+    void seleccionarCuenta(MouseEvent event) {
+        cuenta = (CuentaBancaria) tblCuentasBancarias.getSelectionModel().getSelectedItem();
+    }
 
     @FXML
     void  initialize(){
@@ -64,10 +67,6 @@ public class SeleccionCuentasViewController extends ViewController{
     public void cargarCuentas(List<CuentaBancaria> cuentasBancarias){
         this.cuentasBancarias.addAll(cuentasBancarias);
         this.tblCuentasBancarias.setItems(this.cuentasBancarias);
-    }
-
-    private void seleccionarCuenta(){
-        cuenta = (CuentaBancaria) tblCuentasBancarias.getSelectionModel().getSelectedItem();
     }
 
     public CuentaBancaria getCuenta() {

@@ -25,17 +25,22 @@ public class LoginViewController extends ViewController{
     void irPantallaMenu(MouseEvent event) throws IOException {
         if (!(estarVacio(txfDni)|| estarVacio(txfPassword))) {
             List<String> datos=bizumController.comprobarContrasena(txfDni.getText().toString());
-            int idUsuario=Integer.parseInt(datos.get(0));
-            String contrasena=datos.get(1);
-            if(txfPassword.getText().toString().equals(contrasena)){
-                bizumController.setIdUsuario(idUsuario);
-                bizumController.cargarVista(IView.VISTA_MENU);
+            if(datos.size()>0){
+                int idUsuario=Integer.parseInt(datos.get(0));
+                String contrasena=datos.get(1);
+                if(txfPassword.getText().toString().equals(contrasena)){
+                    bizumController.setIdUsuario(idUsuario);
+                    bizumController.cargarVista(IView.VISTA_MENU);
+                }
+                else{
+                    mostrarMensaje("ERROR","Datos de acceso incorrectos");
+                }
             }
             else{
-                mostrarMensaje("ERROR","Datos de acceso incorrectos");
+                mostrarMensaje("ERROR","DNI incorrecto");
             }
         }
-        bizumController.cargarVista(IView.VISTA_MENU);
+        //bizumController.cargarVista(IView.VISTA_MENU);
     }
 
     @FXML
