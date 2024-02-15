@@ -60,7 +60,7 @@ public class MiBancoDAO {
         final String QUERY = "CREATE TABLE IF NOT EXISTS CuentasUsuarios(" +
                 "Id INT(9) PRIMARY KEY AUTO_INCREMENT," +
                 "Dni VARCHAR(9) NOT NULL," +
-                "Nombre VARCHAR(12) NOT NULL," +
+                "Nombre VARCHAR(25) NOT NULL," +
                 "SegundoNombre VARCHAR(12)," +
                 "Apellidos VARCHAR(25) NOT NULL," +
                 "Telefono INT(9) NOT NULL," +
@@ -123,15 +123,13 @@ public class MiBancoDAO {
     public boolean agregarCuentaUsuario(CuentaUsuario usuario) {
         boolean exito = false;
         final String QUERY = "INSERT INTO CuentasUsuarios(Dni, Nombre, Apellidos, Telefono, Contrasena) VALUES (?,?,?,?,?)";
-        HashManager encriptador=new HashManager();
-        String contrasenaCifrada=encriptador.getDigest(usuario.getContrasena());
         try (Connection conn = conectarBD(URL_BD);
              PreparedStatement ps = conn.prepareStatement(QUERY)) {
             ps.setString(1, usuario.getDni());
             ps.setString(2, usuario.getNombre());
             ps.setString(3, usuario.getApellidos());
             ps.setInt(4, usuario.getTelefono());
-            ps.setString(5, contrasenaCifrada);
+            ps.setString(5, usuario.getContrasena());
             ps.executeUpdate();
             exito = true;
         } catch (SQLException e) {

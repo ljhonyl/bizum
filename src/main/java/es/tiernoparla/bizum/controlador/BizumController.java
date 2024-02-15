@@ -4,6 +4,7 @@ import es.tiernoparla.bizum.App;
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import es.tiernoparla.bizum.modelo.basedatos.MiBancoDAO;
+import es.tiernoparla.bizum.modelo.encriptador.HashManager;
 import es.tiernoparla.bizum.vista.IView;
 import es.tiernoparla.bizum.vista.ViewController;
 import javafx.application.Application;
@@ -21,9 +22,11 @@ public class BizumController extends Application {
     private int idUsuario;
     private Stage currentStage;
     private MiBancoDAO miBancoDAO;
+    private HashManager encriptador;
 
     public BizumController() {
         miBancoDAO=new MiBancoDAO();
+        encriptador=new HashManager();
     }
 
     /**
@@ -72,8 +75,9 @@ public class BizumController extends Application {
      * @param cuentaUsuario datos recogidos desde la vista
      */
     public boolean addCuentaUsuario(CuentaUsuario cuentaUsuario) {
-        boolean exito= miBancoDAO.agregarCuentaUsuario(cuentaUsuario);
-        return exito;
+        String contrsenaCifrada=encriptador.getDigest(cuentaUsuario.getContrasena());
+        cuentaUsuario.setContrasena(contrsenaCifrada);
+        return miBancoDAO.agregarCuentaUsuario(cuentaUsuario);
     }
 
     /**
@@ -119,5 +123,9 @@ public class BizumController extends Application {
 
     public void addCuentaBancaria(Double saldo) {
         miBancoDAO.addCuentaBancaria(saldo, idUsuario);
+    }
+
+    public String cifrar(String contrasena){
+        return encriptador.getDigest(contrasena);
     }
 }

@@ -2,9 +2,9 @@ package es.tiernoparla.bizum.vista;
 
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -27,9 +27,6 @@ public class RegistroViewController extends ViewController{
     private TextField txfNombre;
 
     @FXML
-    private TextField txfSegundoNombre;
-
-    @FXML
     private TextField txfTelefono;
 
     @FXML
@@ -37,8 +34,15 @@ public class RegistroViewController extends ViewController{
         crearCuenta();
     }
 
-
-
+    @FXML
+    void initialize(){
+        limitarCaracteres(txfDni, 9);
+        limitarCaracteres(txfNombre, 25);
+        limitarCaracteres(txfApellidos, 25);
+        limitarCaracteres(txfTelefono, 9);
+        limitarCaracteres(txfContrasena, 15);
+    }
+    /*-----------------------------------------------------------------------------*/
     private void crearCuenta() throws IOException {
         boolean exito;
         if(!(estarVacio(txfDni) || estarVacio(txfNombre) || estarVacio(txfApellidos) || estarVacio(txfTelefono) || estarVacio(txfContrasena))){
@@ -55,5 +59,4 @@ public class RegistroViewController extends ViewController{
             mostrarMensaje("ERROR", "Faltan campos obligatorios");
         }
     }
-
 }

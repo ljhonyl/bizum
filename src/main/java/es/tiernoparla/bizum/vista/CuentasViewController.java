@@ -2,12 +2,15 @@ package es.tiernoparla.bizum.vista;
 
 import es.tiernoparla.bizum.App;
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
+import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -35,7 +38,6 @@ public class CuentasViewController extends ViewController{
     void seleccionarCuentaBizum(MouseEvent event) throws IOException{
         if(numCuenta!=-1){
             bizumController.seleccionarCuentaBizum(numCuenta);
-            bizumController.cargarVista(IView.VISTA_MENU);
         }
         else{
             mostrarMensaje("ERROR","Seleccione una cuenta");
@@ -105,6 +107,7 @@ public class CuentasViewController extends ViewController{
 
     /*------------------------------------------------------------------------*/
 
+    private CuentaUsuario cuenta;
     private int numCuenta;
 
 }

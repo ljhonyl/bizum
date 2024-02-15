@@ -46,6 +46,12 @@ public class BizumViewController extends ViewController{
             }
         }
     }
+
+    @FXML
+    void initialize(){
+        limitarCaracteres(txfNumTel,9);
+        limitarCaracteres(txfCantidad,4);
+    }
     /*----------------------------------------------------*/
 
     private int numTel;

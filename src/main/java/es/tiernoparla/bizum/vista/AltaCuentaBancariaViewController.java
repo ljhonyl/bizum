@@ -45,6 +45,10 @@ public class AltaCuentaBancariaViewController extends ViewController{
         }
     }
 
+    @FXML
+    void initialize(){
+        limitarCaracteres(txfSaldo,7);
+    }
     /*----------------------------------------------------------------------------*/
 
     private Double saldo;

@@ -172,6 +172,11 @@ public class MenuViewController extends ViewController{
         cuentasViewController.initialize(cargarCuentas());
     }
 
+    @FXML
+    void initialize(){
+        limitarCaracteres(txaCantidad,4);
+    }
+
     private ObservableList<CuentaBancaria> cuentasBancarias;
 
     public List<CuentaBancaria> cargarCuentas(){
