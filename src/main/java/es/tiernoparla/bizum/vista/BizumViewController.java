@@ -33,8 +33,13 @@ public class BizumViewController extends ViewController{
             try{
                 numTel=Integer.parseInt(txfNumTel.getText().toString());
                 cantidad=Double.parseDouble(txfCantidad.getText().toString());
-                Stage stage = (Stage) btnConfirmar.getScene().getWindow();
-                stage.close();
+                if(cantidad>0){
+                    Stage stage = (Stage) btnConfirmar.getScene().getWindow();
+                    stage.close();
+                }
+                else{
+                    mostrarMensaje("ERROR","Compruebe la cantidad introducida");
+                }
             }
             catch (NumberFormatException e){
                 mostrarMensaje("ERROR","Revise los datos introducidos");

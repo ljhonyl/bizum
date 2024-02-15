@@ -37,7 +37,7 @@ public class LoginViewController extends ViewController{
                 }
             }
             else{
-                mostrarMensaje("ERROR","DNI incorrecto");
+                mostrarMensaje("ERROR","El DNI no esta registrado en la base de datos");
             }
         }
         //bizumController.cargarVista(IView.VISTA_MENU);
@@ -46,5 +46,11 @@ public class LoginViewController extends ViewController{
     @FXML
     void irPantallaRegistro(MouseEvent event) throws IOException {
         bizumController.cargarVista(IView.VISTA_REGISTRO);
+    }
+
+    /*--------------------------------------------------------------------------*/
+    private String cifrar(){
+
+        return null;
     }
 }

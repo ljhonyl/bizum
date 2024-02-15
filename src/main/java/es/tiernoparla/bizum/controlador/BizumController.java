@@ -101,9 +101,8 @@ public class BizumController extends Application {
         miBancoDAO.retirar(numeroCuenta,cantidad);
     }
 
-    public boolean hacerBizum(int numero, double cantidad) {
-        boolean exitosa= miBancoDAO.hacerBizum(idUsuario,cantidad,numero);
-        return exitosa;
+    public int hacerBizum(int numero, double cantidad) {
+        return miBancoDAO.hacerBizum(idUsuario,cantidad,numero);
     }
 
     public void ingresar(int numCuenta, double dineroARetirar) {
@@ -112,5 +111,13 @@ public class BizumController extends Application {
 
     public void seleccionarCuentaBizum(int numeroCuenta) {
         miBancoDAO.seleccionarCuentaBizum(numeroCuenta, idUsuario);
+    }
+
+    public String getNombreBeneficiario(int numero) {
+        return  miBancoDAO.getNombreBeneficiario(numero);
+    }
+
+    public void addCuentaBancaria(Double saldo) {
+        miBancoDAO.addCuentaBancaria(saldo, idUsuario);
     }
 }

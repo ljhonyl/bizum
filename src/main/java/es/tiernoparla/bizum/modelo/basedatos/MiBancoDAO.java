@@ -2,6 +2,7 @@ package es.tiernoparla.bizum.modelo.basedatos;
 
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
+import es.tiernoparla.bizum.modelo.encriptador.HashManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class MiBancoDAO {
                 "SegundoNombre VARCHAR(12)," +
                 "Apellidos VARCHAR(25) NOT NULL," +
                 "Telefono INT(9) NOT NULL," +
-                "Contrasena VARCHAR(12) NOT NULL," +
+                "Contrasena VARCHAR(255) NOT NULL," +
                 "CuentaBizum INT(16)" +
                 ");";
         try (Connection conn = conectarBD(URL_BD);
@@ -121,33 +122,22 @@ public class MiBancoDAO {
 
     public boolean agregarCuentaUsuario(CuentaUsuario usuario) {
         boolean exito = false;
-        final String QUERY = "INSERT INTO CuentasUsuarios(Dni, Nombre, SegundoNombre, Apellidos, Telefono,  Contrasena) VALUES (?,?,?,?,?,?)";
+        final String QUERY = "INSERT INTO CuentasUsuarios(Dni, Nombre, Apellidos, Telefono, Contrasena) VALUES (?,?,?,?,?)";
+        HashManager encriptador=new HashManager();
+        String contrasenaCifrada=encriptador.getDigest(usuario.getContrasena());
         try (Connection conn = conectarBD(URL_BD);
              PreparedStatement ps = conn.prepareStatement(QUERY)) {
             ps.setString(1, usuario.getDni());
             ps.setString(2, usuario.getNombre());
-            ps.setString(3, usuario.getSegundoNombre());
-            ps.setString(4, usuario.getApellidos());
-            ps.setInt(5, usuario.getTelefono());
-            ps.setString(6, usuario.getContrasena());
+            ps.setString(3, usuario.getApellidos());
+            ps.setInt(4, usuario.getTelefono());
+            ps.setString(5, contrasenaCifrada);
             ps.executeUpdate();
             exito = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             return exito;
-        }
-    }
-
-    private void agregarCuentaBancaria(int id, double saldo) {
-        final String QUERY = "INSERT INTO Cuentas(IdCuentaUsuario, Saldo) VALUES (?,?)";
-        try (Connection conn = conectarBD(URL_BD);
-             PreparedStatement ps = conn.prepareStatement(QUERY)) {
-            ps.setInt(1, id);
-            ps.setDouble(2, saldo);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -175,16 +165,38 @@ public class MiBancoDAO {
         }
     }
 
-    public boolean hacerBizum(int idUsaurio, double cantidad, int telefono) {
-        boolean exitosa=false;
+    public int hacerBizum(int idUsaurio, double cantidad, int telefono) {
+        int exito=-1;
         int numCuentaEmisor=buscarCuentaConBizum(idUsaurio);
         int numCuentaReceptor = buscarCuentaPorNumero(telefono);
         if(numCuentaEmisor!=-1 && numCuentaReceptor!=-1){
-            retirar(numCuentaEmisor, cantidad);
-            ingresar(numCuentaReceptor, cantidad);
-            exitosa=true;
+            double saldo=comprobarSaldoCuentaBizum(numCuentaEmisor);
+            if(saldo>=cantidad){
+                retirar(numCuentaEmisor, cantidad);
+                ingresar(numCuentaReceptor, cantidad);
+                exito=1;
+            }
+            else{
+                exito=0;
+            }
         }
-        return exitosa;
+        return exito;
+    }
+
+    private double comprobarSaldoCuentaBizum(int numCuentaEmisor) {
+        final String QUERY = "SELECT Saldo FROM Cuentas WHERE NumCuenta=?";
+        double saldo = -1;
+        try (Connection conn = conectarBD(URL_BD);
+             PreparedStatement ps = conn.prepareStatement(QUERY);) {
+            ps.setInt(1, numCuentaEmisor);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                saldo=rs.getDouble("Saldo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return saldo;
     }
 
     private int buscarCuentaPorNumero(int telefono) {
@@ -276,6 +288,35 @@ public class MiBancoDAO {
             ps.setInt(2,idUsuario);
             ps.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getNombreBeneficiario(int telefono) {
+        final String QUERY = "SELECT Nombre, Apellidos FROM CuentasUsuarios WHERE Telefono=?";
+        String nombre="";
+        try (Connection conn = conectarBD(URL_BD);
+             PreparedStatement ps = conn.prepareStatement(QUERY);) {
+            ps.setInt(1, telefono);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                nombre=rs.getString("Nombre")+" "+rs.getString("Apellidos");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombre;
+    }
+
+    public void addCuentaBancaria(Double saldo, int idUsuario) {
+        final String QUERY="INSERT INTO Cuentas (IdCuentaUsuario,Saldo) values (?,?)";
+        try(Connection conn=conectarBD(URL_BD);
+        PreparedStatement ps=conn.prepareStatement(QUERY)){
+            ps.setInt(1,idUsuario);
+            ps.setDouble(2,saldo);
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
             e.printStackTrace();
         }
     }

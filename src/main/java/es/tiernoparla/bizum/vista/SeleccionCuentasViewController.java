@@ -32,6 +32,7 @@ public class SeleccionCuentasViewController extends ViewController{
 
     @FXML
     void cancelar(MouseEvent event) {
+        cuenta=null;
         Stage stage = (Stage) btnCancelar.getScene().getWindow();
         stage.close();
     }

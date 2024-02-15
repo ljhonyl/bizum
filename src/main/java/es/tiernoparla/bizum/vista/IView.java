@@ -7,4 +7,5 @@ public interface IView {
     public static final String VISTA_SELECCION_CUENTAS="vista/SeleccionCuentasView.fxml";
     public static final String VISTA_CUENTAS="vista/CuentasView.fxml";
     public static  final String VISTA_BIZUM="vista/BizumView.fxml";
+    public static  final String VISTA_ADD_CUENTA_BANCARIA="vista/AltaCuentaBancariaView.fxml";
 }

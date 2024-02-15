@@ -3,20 +3,10 @@ package es.tiernoparla.bizum.modelo;
 public class CuentaUsuario {
     private String dni;
     private String nombre;
-    private String segundoNombre;
     private String apellidos;
     private int telefono;
     private String contrasena;
     private String cuentaBizum;
-
-    public CuentaUsuario(String dni, String nombre, String segundoNombre, String apellidos, int telefono, String contrasena){
-        this.dni = dni;
-        this.nombre = nombre;
-        this.segundoNombre = segundoNombre;
-        this.apellidos = apellidos;
-        this.telefono = telefono;
-        this.contrasena = contrasena;
-    }
 
     public CuentaUsuario(String dni, String nombre, String apellidos, int telefono, String contrasena){
         this.dni = dni;
@@ -37,12 +27,6 @@ public class CuentaUsuario {
     }
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-    public String getSegundoNombre() {
-        return segundoNombre;
-    }
-    public void setSegundoNombre(String segundoNombre) {
-        this.segundoNombre = segundoNombre;
     }
     public String getApellidos() {
         return apellidos;
