@@ -48,6 +48,7 @@ public class MenuViewController extends ViewController{
         ventanaSecundaria.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(root);
         ventanaSecundaria.setScene(scene);
+        ventanaSecundaria.setTitle("Seleccion");
         ventanaSecundaria.showAndWait();
         if(seleccionCuentasViewController.getCuenta()!=null){
             CuentaBancaria cuenta= seleccionCuentasViewController.getCuenta();
@@ -87,6 +88,7 @@ public class MenuViewController extends ViewController{
         //ventanaSecundaria.initOwner(btnRetirar.getParent());
         Scene scene = new Scene(root);
         ventanaSecundaria.setScene(scene);
+        ventanaSecundaria.setTitle("Seleccion");
         ventanaSecundaria.showAndWait();
         if(seleccionCuentasViewController.getCuenta()!=null){
             CuentaBancaria cuenta= seleccionCuentasViewController.getCuenta();
