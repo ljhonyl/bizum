@@ -6,21 +6,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="1039.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.MenuViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="592.0" prefWidth="912.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.MenuViewController">
    <children>
-      <Button fx:id="btnCuentas" layoutX="744.0" layoutY="134.0" mnemonicParsing="false" onMouseClicked="#irCuentas" prefHeight="144.0" prefWidth="194.0" text="Cuentas" />
-      <Button fx:id="btnBizum" layoutX="744.0" layoutY="386.0" mnemonicParsing="false" onMouseClicked="#irBizum" prefHeight="144.0" prefWidth="194.0" text="Bizum" />
-      <Label layoutX="75.0" layoutY="171.0" prefHeight="28.0" prefWidth="222.0" text="Cantidad">
+      <Button fx:id="btnCuentas" layoutX="404.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#irCuentas" prefHeight="144.0" prefWidth="194.0" text="Cuentas" />
+      <Button fx:id="btnBizum" layoutX="648.0" layoutY="224.0" mnemonicParsing="false" onMouseClicked="#irBizum" prefHeight="144.0" prefWidth="194.0" text="Bizum" />
+      <Label layoutX="66.0" layoutY="126.0" prefHeight="28.0" prefWidth="222.0" text="Cantidad">
          <font>
             <Font size="24.0" />
          </font></Label>
-      <Button fx:id="btnRetirar" layoutX="348.0" layoutY="259.0" mnemonicParsing="false" onMouseClicked="#Retirar" prefHeight="37.0" prefWidth="200.0" text="Retirar" />
-      <TextArea fx:id="txaCantidad" layoutX="75.0" layoutY="222.0" prefHeight="200.0" prefWidth="206.0" />
-      <Button fx:id="btnIngresar" layoutX="348.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#Ingresar" prefHeight="37.0" prefWidth="200.0" text="Ingresar" />
-      <Label layoutX="75.0" layoutY="40.0" prefHeight="59.0" prefWidth="297.0" text="BIENVENIDO">
+      <Button fx:id="btnRetirar" layoutX="66.0" layoutY="403.0" mnemonicParsing="false" onMouseClicked="#Retirar" prefHeight="37.0" prefWidth="206.0" text="Retirar" />
+      <TextArea fx:id="txaCantidad" layoutX="66.0" layoutY="174.0" prefHeight="200.0" prefWidth="206.0" />
+      <Button fx:id="btnIngresar" layoutX="66.0" layoutY="475.0" mnemonicParsing="false" onMouseClicked="#Ingresar" prefHeight="37.0" prefWidth="206.0" text="Ingresar" />
+      <Label layoutX="66.0" layoutY="21.0" prefHeight="59.0" prefWidth="297.0" text="BIENVENIDO">
          <font>
             <Font name="Liberation Serif Bold Italic" size="40.0" />
          </font>
       </Label>
+      <Button fx:id="btnSalir" layoutX="693.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#salir" prefHeight="26.0" prefWidth="149.0" text="Salir" />
    </children>
 </AnchorPane>

@@ -2,27 +2,29 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#registrarse" prefHeight="601.0" prefWidth="876.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.RegistroViewController">
    <children>
-      <Label layoutX="63.0" layoutY="49.0" text="REGISTRO">
+      <Label layoutX="61.0" layoutY="45.0" text="REGISTRO">
          <font>
             <Font name="Liberation Serif Bold Italic" size="36.0" />
          </font>
       </Label>
       <TextField fx:id="txfDni" layoutX="63.0" layoutY="135.0" />
-      <TextField fx:id="txfNombre" layoutX="54.0" layoutY="258.0" />
+      <TextField fx:id="txfNombre" layoutX="61.0" layoutY="258.0" prefHeight="26.0" prefWidth="162.0" />
       <TextField fx:id="txfApellidos" layoutX="438.0" layoutY="258.0" prefHeight="26.0" prefWidth="273.0" />
-      <Label layoutX="63.0" layoutY="109.0" text="DNI/NIE" />
-      <Label layoutX="61.0" layoutY="228.0" text="Nombre" />
-      <Label layoutX="438.0" layoutY="228.0" text="Apellidos" />
-      <Label layoutX="63.0" layoutY="342.0" text="Telefono" />
-      <Label layoutX="438.0" layoutY="342.0" text="Contraseña" />
+      <Label layoutX="63.0" layoutY="109.0" text="DNI/NIE *" />
+      <Label layoutX="63.0" layoutY="228.0" text="Nombre *" />
+      <Label layoutX="438.0" layoutY="228.0" text="Apellidos *" />
+      <Label layoutX="63.0" layoutY="342.0" text="Telefono *" />
+      <Label layoutX="438.0" layoutY="342.0" text="Contraseña *" />
       <TextField fx:id="txfTelefono" layoutX="61.0" layoutY="371.0" />
-      <TextField fx:id="txfContrasena" layoutX="438.0" layoutY="371.0" />
-      <Button fx:id="btnRegistrase" layoutX="689.0" layoutY="504.0" mnemonicParsing="false" onMouseClicked="#registrarse" prefHeight="26.0" prefWidth="155.0" text="Registrarse" />
+      <Button fx:id="btnRegistrase" layoutX="705.0" layoutY="504.0" mnemonicParsing="false" onMouseClicked="#registrarse" prefHeight="26.0" prefWidth="139.0" text="Registrarse" />
+      <Button fx:id="btnVolver" layoutX="540.0" layoutY="504.0" mnemonicParsing="false" onMouseClicked="#volver" prefHeight="26.0" prefWidth="139.0" text="Volver" />
+      <PasswordField fx:id="psfPassword" layoutX="438.0" layoutY="371.0" />
    </children>
 </AnchorPane>

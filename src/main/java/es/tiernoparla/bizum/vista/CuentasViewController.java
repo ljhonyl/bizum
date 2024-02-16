@@ -36,8 +36,13 @@ public class CuentasViewController extends ViewController{
 
     @FXML
     void seleccionarCuentaBizum(MouseEvent event) throws IOException{
-        if(numCuenta!=-1){
-            bizumController.seleccionarCuentaBizum(numCuenta);
+        if(cuenta!=null){
+            for (CuentaBancaria c : listViewCuentas.getItems()) {
+                c.setEsBizum(false);
+            }
+            cuenta.setEsBizum(true);
+            listViewCuentas.refresh();
+            bizumController.seleccionarCuentaBizum(cuenta.getNumCuenta());
         }
         else{
             mostrarMensaje("ERROR","Seleccione una cuenta");
@@ -46,13 +51,12 @@ public class CuentasViewController extends ViewController{
 
     @FXML
     void volver(MouseEvent event) throws IOException {
-        numCuenta=-1;
         bizumController.cargarVista(IView.VISTA_MENU);
     }
 
     @FXML
     void addCuenta(MouseEvent event) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(IView.VISTA_ADD_CUENTA_BANCARIA));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(IView.VISTA_ALTA_CUENTA_BANCARIA));
         Parent root = (Parent) fxmlLoader.load();
         AltaCuentaBancariaViewController altaCuentaBancariaViewController = (AltaCuentaBancariaViewController) fxmlLoader.<ViewController>getController();
         Stage ventanaSecundaria = new Stage();
@@ -70,6 +74,7 @@ public class CuentasViewController extends ViewController{
 
     @FXML
     void initialize(List<CuentaBancaria> cuentas) {
+
         listViewCuentas.setCellFactory(new Callback<ListView<CuentaBancaria>, javafx.scene.control.ListCell<CuentaBancaria>>() {
             @Override
             public javafx.scene.control.ListCell<CuentaBancaria> call(ListView<CuentaBancaria> param) {
@@ -82,10 +87,10 @@ public class CuentasViewController extends ViewController{
                             setGraphic(null);
                         } else {
                             try {
-                                FXMLLoader loader = new FXMLLoader(App.class.getResource("vista/CuentaCardView.fxml"));
+                                FXMLLoader loader = new FXMLLoader(App.class.getResource(IView.VISTA_CARD_CUENTA_BANCARIA));
                                 AnchorPane cardPane = loader.load();
                                 CuentaCardViewController controller = loader.getController();
-                                controller.initialize(cuenta); // Asigna título y descripción
+                                controller.initialize(cuenta);
                                 setGraphic(cardPane);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -98,8 +103,7 @@ public class CuentasViewController extends ViewController{
 
         // Agrega un listener para la selección de la lista
         listViewCuentas.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            CuentaBancaria cuenta = newValue;
-            numCuenta=cuenta.getNumCuenta();
+            cuenta = newValue;
         });
 
         listViewCuentas.getItems().addAll(cuentas);
@@ -107,7 +111,5 @@ public class CuentasViewController extends ViewController{
 
     /*------------------------------------------------------------------------*/
 
-    private CuentaUsuario cuenta;
-    private int numCuenta;
-
+    private CuentaBancaria cuenta;
 }

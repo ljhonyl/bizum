@@ -6,6 +6,7 @@ import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import es.tiernoparla.bizum.modelo.basedatos.MiBancoDAO;
 import es.tiernoparla.bizum.modelo.encriptador.HashManager;
 import es.tiernoparla.bizum.vista.IView;
+import es.tiernoparla.bizum.vista.SeleccionCuentasViewController;
 import es.tiernoparla.bizum.vista.ViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BizumController extends Application {
@@ -50,16 +52,15 @@ public class BizumController extends Application {
      * Se crea una ventana secundaria con padre currentStage
      * @throws IOException
      */
-    public ViewController crearVentanaSecundaria() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(IView.VISTA_SELECCION_CUENTAS));
+    public ViewController mostrarVentanaSecundaria(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml));
         Parent root = (Parent) fxmlLoader.load();
-        ViewController viewController = fxmlLoader.<ViewController>getController();
+        ViewController viewController =fxmlLoader.<ViewController>getController();
         Stage ventanaSecundaria = new Stage();
         ventanaSecundaria.initModality(Modality.WINDOW_MODAL);
-        ventanaSecundaria.initOwner(currentStage);
         Scene scene = new Scene(root);
         ventanaSecundaria.setScene(scene);
-        ventanaSecundaria.show();
+        ventanaSecundaria.showAndWait();
         return viewController;
     }
 
@@ -81,12 +82,28 @@ public class BizumController extends Application {
     }
 
     /**
-     * Llama al modelo y le pasa el dni. Retorna la contraseña asociada a ese dni
-     * @param dni variable necesaria para ejecutar el metodo en el modelo
-     * @return devuelve la contraseña asociada al dni
+     * Recoge la contraseña almacenada si se ha introducido un dni registrado
+     * y se la pasa al encriptador juntos con lacontraseña introducida para
+     * verificar si coinciden
+     * @param dni necesario para buscar en la bbdd
+     * @param contrasena contraseña introducida
+     * @return acceder, 1 si se accede, 0 si las contraseñas no coinciden
+     * -1 si el dni no esta almacenado
      */
-    public List<String> comprobarContrasena(String dni) {
-        return miBancoDAO.comprobarContrasena(dni);
+    public int comprobarContrasena(String dni, String contrasena) {
+        int acceder=-1;
+        List<String> datos=miBancoDAO.comprobarContrasena(dni);
+        if(!datos.isEmpty()){
+            String contrasenaGuardada=datos.get(1);
+            if(encriptador.compararContrasena(encriptador.getDigest(contrasena),contrasenaGuardada)){
+                idUsuario=Integer.parseInt(datos.get(0));
+                acceder=1;
+            }
+            else{
+                acceder=0;
+            }
+        }
+        return acceder;
     }
 
     public List<CuentaBancaria> getCuentasBancarias() {
@@ -123,9 +140,5 @@ public class BizumController extends Application {
 
     public void addCuentaBancaria(Double saldo) {
         miBancoDAO.addCuentaBancaria(saldo, idUsuario);
-    }
-
-    public String cifrar(String contrasena){
-        return encriptador.getDigest(contrasena);
     }
 }

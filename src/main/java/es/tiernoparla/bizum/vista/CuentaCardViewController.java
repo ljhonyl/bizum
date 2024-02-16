@@ -20,9 +20,20 @@ public class CuentaCardViewController extends ViewController{
     void initialize(CuentaBancaria cuenta) {
         lblNumCuenta.setText(String.valueOf(cuenta.getNumCuenta()));
         lblSaldo.setText(String.valueOf(cuenta.getSaldo()));
+        setImagen(cuenta);
     }
     /*--------------------------------------------------------------------*/
-    public void setImagen(Image imagen) {
-        ivBizum.setImage(imagen);
+
+    /**
+     * Imagen a mostrar si la cuenta esta elegida como cuenta con bizum
+     * @param cuenta
+     */
+    public void setImagen(CuentaBancaria cuenta) {
+        System.out.println(cuenta.getEsBizum());
+        if(cuenta.getEsBizum()){
+            System.out.println(cuenta.getEsBizum());
+            Image imagen=new Image(getClass().getResourceAsStream(IView.IMAGEN_BIZUM));
+            ivBizum.setImage(imagen);
+        }
     }
 }

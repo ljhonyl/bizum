@@ -2,7 +2,6 @@ package es.tiernoparla.bizum.vista;
 
 import es.tiernoparla.bizum.App;
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +31,9 @@ public class MenuViewController extends ViewController{
 
     @FXML
     private Button btnRetirar;
+
+    @FXML
+    private Button btnSalir;
 
     @FXML
     private TextArea txaCantidad;
@@ -76,8 +78,6 @@ public class MenuViewController extends ViewController{
 
     @FXML
     void Retirar(MouseEvent event) throws  IOException{
-        //SeleccionCuentasViewController seleccionCuentasViewController= (SeleccionCuentasViewController) bizumController.crearVentanaSecundaria();
-        //seleccionCuentasViewController.cargarCuentas(cargarCuentas());
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(IView.VISTA_SELECCION_CUENTAS));
         Parent root = (Parent) fxmlLoader.load();
         SeleccionCuentasViewController seleccionCuentasViewController = (SeleccionCuentasViewController) fxmlLoader.<ViewController>getController();
@@ -136,11 +136,11 @@ public class MenuViewController extends ViewController{
             int numero=bizumViewController.getNumTel();
             double cantidad=bizumViewController.getCantidad();
             String nombre=bizumController.getNombreBeneficiario(numero);
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("INFO");
             alert.setHeaderText("Desea hacer un bizum de "+cantidad+" a "+nombre);
 
-            // Configurar los botones
             ButtonType buttonTypeOK = new ButtonType("Aceptar");
             ButtonType buttonTypeCancel = new ButtonType("Cancelar");
             alert.getButtonTypes().setAll(buttonTypeOK, buttonTypeCancel);
@@ -150,7 +150,6 @@ public class MenuViewController extends ViewController{
                 if (response == buttonTypeOK) {
                     int exito=bizumController.hacerBizum(numero,cantidad);
                     if(exito==1){
-                        bizumController.getNombreBeneficiario(numero);
                         mostrarMensaje("INFO","Bizum realizado correctamente");
                     }
                     else if(exito==0){
@@ -170,6 +169,13 @@ public class MenuViewController extends ViewController{
     void irCuentas(MouseEvent event) throws IOException{
         CuentasViewController cuentasViewController= (CuentasViewController) bizumController.cargarVista(IView.VISTA_CUENTAS);
         cuentasViewController.initialize(cargarCuentas());
+    }
+
+
+    @FXML
+    void salir(MouseEvent event) throws IOException{
+        bizumController.setIdUsuario(-1);
+        bizumController.cargarVista(IView.VISTA_LOGIN);
     }
 
     @FXML

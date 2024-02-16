@@ -2,6 +2,7 @@ package es.tiernoparla.bizum.vista;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
@@ -20,7 +21,7 @@ public class LoginViewController extends ViewController{
     private TextField txfDni;
 
     @FXML
-    private TextField txfPassword;
+    private PasswordField psfPassword;
 
     /**
      * Se comprueba que el nombre de usuario este registrado, ademas
@@ -31,25 +32,18 @@ public class LoginViewController extends ViewController{
      */
     @FXML
     void irPantallaMenu(MouseEvent event) throws IOException {
-        if (!(estarVacio(txfDni)|| estarVacio(txfPassword))) {
-            List<String> datos=bizumController.comprobarContrasena(txfDni.getText().toString());
-            if(datos.size()>0){
-                int idUsuario=Integer.parseInt(datos.get(0));
-                String contrasenaGuardada=datos.get(1);
-                String contrasena=bizumController.cifrar(txfPassword.getText().toString());
-                if(contrasena.equalsIgnoreCase(contrasenaGuardada)){
-                    bizumController.setIdUsuario(idUsuario);
-                    bizumController.cargarVista(IView.VISTA_MENU);
-                }
-                else{
-                    mostrarMensaje("ERROR","Datos de acceso incorrectos");
-                }
+        if (!(estarVacio(txfDni) || estarVacio(psfPassword))) {
+            int acceder=bizumController.comprobarContrasena(txfDni.getText().toString(),psfPassword.getText().toString());
+            if(acceder==1){
+                bizumController.cargarVista(IView.VISTA_MENU);
             }
-            else{
-                mostrarMensaje("ERROR","El DNI no esta registrado en la base de datos");
+            else if(acceder==0){
+                mostrarMensaje("ERROR","La contraseña es erroena");
+            }
+            else if(acceder==-1){
+                mostrarMensaje("ERROR","El DNI no esta registrado");
             }
         }
-        //bizumController.cargarVista(IView.VISTA_MENU);
     }
 
     /**
@@ -65,6 +59,6 @@ public class LoginViewController extends ViewController{
     @FXML
     void initialize(){
         limitarCaracteres(txfDni,9);
-        limitarCaracteres(txfPassword,15);
+        limitarCaracteres(psfPassword,15);
     }
 }

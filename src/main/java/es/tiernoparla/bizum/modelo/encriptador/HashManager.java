@@ -4,38 +4,36 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashManager {
+
+    /**
+     * Cifra la contraseña
+     * @param contrasena contraseña a cifrar
+     * @return contrasnaCifrada
+     */
     public String getDigest(String contrasena) {
         try {
-            MessageDigest contrasenaCifrada = MessageDigest.getInstance("SHA-256");
-            contrasenaCifrada.update(contrasena.getBytes());
-            byte[] digest = contrasenaCifrada.digest();
-            StringBuffer hexString = new StringBuffer();
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(contrasena.getBytes());
+            byte[] digest = messageDigest.digest();
+            StringBuffer contrasenaCifrada = new StringBuffer();
             for (int i = 0; i < digest.length; i++) {
                 String hex = Integer.toHexString(0xff & digest[i]);
-                if (hex.length() == 1) hexString.append('0');
-                hexString.append(hex);
+                if (hex.length() == 1) contrasenaCifrada.append('0');
+                contrasenaCifrada.append(hex);
             }
-            return hexString.toString();
+            return contrasenaCifrada.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static boolean compararContrasena(String contrasenaIntroducida, String contrasenaGuardada) {
-        return MessageDigest.isEqual(hexStringToByteArray(contrasenaIntroducida), hexStringToByteArray(contrasenaGuardada));
-    }
-
-    public static void mostrarResumenHexadecimal(String resumen) {
-        System.out.println("Resumen en formato hexadecimal: " + resumen);
-    }
-
-    private static byte[] hexStringToByteArray(String hexString) {
-        int len = hexString.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4)
-                    + Character.digit(hexString.charAt(i+1), 16));
-        }
-        return data;
+    /**
+     * Compara las contraseñas
+     * @param contrasenaIntroducida contraseña introducida
+     * @param contrasenaGuardada contraseña almacenada
+     * @return true o false si coinciden o no
+     */
+    public boolean compararContrasena(String contrasenaIntroducida, String contrasenaGuardada) {
+        return MessageDigest.isEqual(contrasenaIntroducida.getBytes(),contrasenaGuardada.getBytes());
     }
 }

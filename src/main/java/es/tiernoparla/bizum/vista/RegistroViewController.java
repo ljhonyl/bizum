@@ -3,6 +3,7 @@ package es.tiernoparla.bizum.vista;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
@@ -15,10 +16,13 @@ public class RegistroViewController extends ViewController{
     private Button btnRegistrase;
 
     @FXML
+    private Button btnVolver;
+
+    @FXML
     private TextField txfApellidos;
 
     @FXML
-    private TextField txfContrasena;
+    private PasswordField psfPassword;
 
     @FXML
     private TextField txfDni;
@@ -35,18 +39,23 @@ public class RegistroViewController extends ViewController{
     }
 
     @FXML
+    void volver(MouseEvent event) throws IOException{
+        bizumController.cargarVista(IView.VISTA_LOGIN);
+    }
+
+    @FXML
     void initialize(){
         limitarCaracteres(txfDni, 9);
         limitarCaracteres(txfNombre, 25);
         limitarCaracteres(txfApellidos, 25);
         limitarCaracteres(txfTelefono, 9);
-        limitarCaracteres(txfContrasena, 15);
+        limitarCaracteres(psfPassword, 15);
     }
     /*-----------------------------------------------------------------------------*/
     private void crearCuenta() throws IOException {
         boolean exito;
-        if(!(estarVacio(txfDni) || estarVacio(txfNombre) || estarVacio(txfApellidos) || estarVacio(txfTelefono) || estarVacio(txfContrasena))){
-            CuentaUsuario cuentaUsuario=new CuentaUsuario(txfDni.getText().toString(),txfNombre.getText().toString(),txfApellidos.getText().toString(),Integer.parseInt(txfTelefono.getText().toString()),txfContrasena.getText().toString());
+        if(!(estarVacio(txfDni) || estarVacio(txfNombre) || estarVacio(txfApellidos) || estarVacio(txfTelefono) || estarVacio(psfPassword))){
+            CuentaUsuario cuentaUsuario=new CuentaUsuario(txfDni.getText().toString(),txfNombre.getText().toString(),txfApellidos.getText().toString(),Integer.parseInt(txfTelefono.getText().toString()),psfPassword.getText().toString());
             if (exito= bizumController.addCuentaUsuario(cuentaUsuario)){
                 mostrarMensaje("AVISO","Cuenta Registrada");
                 bizumController.cargarVista(IView.VISTA_LOGIN);

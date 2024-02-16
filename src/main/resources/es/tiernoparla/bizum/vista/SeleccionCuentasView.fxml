@@ -8,19 +8,19 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="425.0" prefWidth="668.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="es.tiernoparla.bizum.vista.SeleccionCuentasViewController">
-   <children>
-      <Label layoutX="245.0" layoutY="35.0" text="Selccione una cuenta">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnConfirmar" layoutX="557.0" layoutY="385.0" mnemonicParsing="false" onMouseClicked="#confirmar" prefHeight="26.0" prefWidth="86.0" text="Confirmar" />
-      <Button fx:id="btnCancelar" layoutX="452.0" layoutY="385.0" mnemonicParsing="false" onMouseClicked="#cancelar" prefHeight="26.0" prefWidth="86.0" text="Cancelar" />
-      <TableView fx:id="tblCuentasBancarias" layoutX="97.0" layoutY="73.0" onMouseClicked="#seleccionarCuenta" prefHeight="280.0" prefWidth="475.0">
-        <columns>
-          <TableColumn fx:id="colNumCuenta" prefWidth="294.0" text="Número de cuenta" />
-          <TableColumn fx:id="colSaldo" prefWidth="180.0" text="Saldo" />
-        </columns>
-      </TableView>
-   </children>
+    <children>
+        <Label layoutX="245.0" layoutY="35.0" text="Selccione una cuenta">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="btnConfirmar" layoutX="557.0" layoutY="385.0" mnemonicParsing="false" onMouseClicked="#confirmar" prefHeight="26.0" prefWidth="86.0" text="Confirmar" />
+        <Button fx:id="btnCancelar" layoutX="452.0" layoutY="385.0" mnemonicParsing="false" onMouseClicked="#cancelar" prefHeight="26.0" prefWidth="86.0" text="Cancelar" />
+        <TableView fx:id="tblCuentasBancarias" layoutX="97.0" layoutY="73.0" onMouseClicked="#seleccionarCuenta" prefHeight="280.0" prefWidth="475.0">
+            <columns>
+                <TableColumn fx:id="colNumCuenta" prefWidth="294.0" text="Número de cuenta" />
+                <TableColumn fx:id="colSaldo" prefWidth="180.0" text="Saldo" />
+            </columns>
+        </TableView>
+    </children>
 </AnchorPane>
