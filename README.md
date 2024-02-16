@@ -155,6 +155,12 @@ Clases de negocio.
 # DOCUMENTACION
 ---
 
+### Enlace prpyecto GitHub
+
+https://github.com/ljhonyl/bizum
+
+Clonando el repositorio desde cualquier entorno no hace falta retocar las variables propias del equipo.
+
 ## Requisitos previos
 
 Se recomienda comprobar que el .jar de mysql este añadido, si se usa intellij idea se le elimina de las referencias y se vuelve a añadir el .jar (se adjunta en la raíz del proyecto).
