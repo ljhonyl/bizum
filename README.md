@@ -163,6 +163,8 @@ Clonando el repositorio desde cualquier entorno no hace falta retocar las variab
 
 ## Requisitos previos
 
+No olvidar cambiar las direcciones del servidor y base de datos en las variables de MiBancoDAO.
+
 Se recomienda comprobar que el .jar de mysql este añadido, si se usa intellij idea se le elimina de las referencias y se vuelve a añadir el .jar (se adjunta en la raíz del proyecto).
 
 

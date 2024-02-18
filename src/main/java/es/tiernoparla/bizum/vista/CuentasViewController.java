@@ -65,10 +65,14 @@ public class CuentasViewController extends ViewController{
         ventanaSecundaria.setScene(scene);
         ventanaSecundaria.showAndWait();
         if(altaCuentaBancariaViewController.getSaldo()!=null){
-            bizumController.addCuentaBancaria(altaCuentaBancariaViewController.getSaldo());
-            mostrarMensaje("INFO","Cuenta dada de alta");
-            List<CuentaBancaria> cuentas= bizumController.getCuentasBancarias();
-            listViewCuentas.getItems().add(cuentas.getLast());
+            if(bizumController.addCuentaBancaria(altaCuentaBancariaViewController.getSaldo())){
+                mostrarMensaje("INFO","Cuenta dada de alta");
+                List<CuentaBancaria> cuentas= bizumController.getCuentasBancarias();
+                listViewCuentas.getItems().add(cuentas.getLast());
+            }
+            else{
+                mostrarMensaje("ERROR","Ocurrio un error con durante la operación");
+            }
         }
     }
 

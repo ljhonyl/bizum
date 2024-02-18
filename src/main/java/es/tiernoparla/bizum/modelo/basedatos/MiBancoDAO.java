@@ -10,11 +10,14 @@ import java.util.List;
 /**
  * Clase que maneja las conexiones con la base de datos
  */
-public class MiBancoDAO {
+public class MiBancoDAO implements IMiBancoDAO{
+
+    /*------------ Retocar estos valores ------------------------------------*/
     private final String URL_GLOBAL = "jdbc:mysql://localhost:3306/";
     private final String USUARIO = "jhony";
     private final String PASSWORD = "password";
     private final String BASE_DATOS = "MiBancoPruebas";
+    /*-----------------------------------------------------------------------*/
     private final String URL_BD = URL_GLOBAL + BASE_DATOS;
 
     public MiBancoDAO() {
@@ -156,7 +159,7 @@ public class MiBancoDAO {
                 ps.setString(5, usuario.getContrasena());
                 ps.executeUpdate();
                 exito = true;
-                conn.commit(); // Commit después de la operación exitosa
+                conn.commit();
             } catch (SQLException e) {
                 e.printStackTrace();
                 conn.rollback();
@@ -218,7 +221,7 @@ public class MiBancoDAO {
      * @param telefono  se buscara la CuentaBizum asociado a este telefono
      * @return exito, si la operacion fue exitosa o no
      */
-    public int hacerBizum(int idUsaurio, double cantidad, int telefono) {
+    public int hacerBizum(int idUsaurio, int telefono, double cantidad) {
         int exito=-1;
         int numCuentaEmisor=buscarCuentaConBizum(idUsaurio);
         int numCuentaReceptor = buscarCuentaBizumPorNumero(telefono);
@@ -425,8 +428,9 @@ public class MiBancoDAO {
      * @param saldo dinero inicial en la cuenta
      * @param idUsuario dueño de la cuenta
      */
-    public void addCuentaBancaria(Double saldo, int idUsuario) {
+    public boolean agregarCuentaBancaria(int idUsuario, double saldo) {
         final String QUERY = "INSERT INTO CuentasBancarias (IdCuentaUsuario, Saldo) VALUES (?, ?)";
+        boolean exito=false;
         try (Connection conn = conectarBD(URL_BD)){
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement(QUERY)) {
@@ -434,6 +438,7 @@ public class MiBancoDAO {
                 ps.setDouble(2, saldo);
                 ps.executeUpdate();
                 conn.commit();
+                exito=true;
             } catch (SQLException e) {
                 e.printStackTrace();
                 conn.rollback();
@@ -443,5 +448,6 @@ public class MiBancoDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return exito;
     }
 }

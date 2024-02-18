@@ -3,10 +3,10 @@ package es.tiernoparla.bizum.controlador;
 import es.tiernoparla.bizum.App;
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
+import es.tiernoparla.bizum.modelo.basedatos.IMiBancoDAO;
 import es.tiernoparla.bizum.modelo.basedatos.MiBancoDAO;
 import es.tiernoparla.bizum.modelo.encriptador.HashManager;
 import es.tiernoparla.bizum.vista.IView;
-import es.tiernoparla.bizum.vista.SeleccionCuentasViewController;
 import es.tiernoparla.bizum.vista.ViewController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,14 +16,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BizumController extends Application {
     private int idUsuario;
     private Stage currentStage;
-    private MiBancoDAO miBancoDAO;
+    private IMiBancoDAO miBancoDAO;
     private HashManager encriptador;
 
     public BizumController() {
@@ -123,7 +121,7 @@ public class BizumController extends Application {
     }
 
     public int hacerBizum(int numero, double cantidad) {
-        return miBancoDAO.hacerBizum(idUsuario,cantidad,numero);
+        return miBancoDAO.hacerBizum(idUsuario,numero,cantidad);
     }
 
     public void ingresar(int numCuenta, double dineroARetirar) {
@@ -138,7 +136,7 @@ public class BizumController extends Application {
         return  miBancoDAO.getNombreBeneficiario(numero);
     }
 
-    public void addCuentaBancaria(Double saldo) {
-        miBancoDAO.addCuentaBancaria(saldo, idUsuario);
+    public boolean addCuentaBancaria(Double saldo) {
+        return miBancoDAO.agregarCuentaBancaria(idUsuario, saldo);
     }
 }
