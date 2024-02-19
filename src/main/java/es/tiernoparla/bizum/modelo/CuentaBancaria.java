@@ -1,10 +1,24 @@
 package es.tiernoparla.bizum.modelo;
 
-public class CuentaBancaria {
-    private int numCuenta;
-    private double saldo;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name="CuentasBancarias")
+public class CuentaBancaria {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "NumCuenta")
+    private int numCuenta;
+
+    @ManyToOne
+    @JoinColumn(name = "IdCuentaUsuario", nullable = false)
+    private CuentaUsuario cuentaUsuario;
+
+    @Column(name = "Saldo")
+    private double saldo;
     private boolean esBizum;
+
+    public CuentaBancaria(){}
 
     public CuentaBancaria(int numCuenta, double saldo){
         this.numCuenta=numCuenta;

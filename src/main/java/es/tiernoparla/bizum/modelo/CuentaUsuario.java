@@ -1,12 +1,28 @@
 package es.tiernoparla.bizum.modelo;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name="CuentasUsuarios")
 public class CuentaUsuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="Id")
+    private int id;
+    @Column(name="Dni", nullable = false)
     private String dni;
+    @Column(name="Nombre", nullable = false)
     private String nombre;
+    @Column(name = "Apellidos", nullable = false)
     private String apellidos;
+    @Column(name="Telefono", nullable = false)
     private int telefono;
+    @Column(name="Contrasena", nullable = false)
     private String contrasena;
+    @Column(name="CuentaBizum", nullable = false)
     private String cuentaBizum;
+
+    public CuentaUsuario(){}
 
     public CuentaUsuario(String dni, String nombre, String apellidos, int telefono, String contrasena){
         this.dni = dni;

@@ -4,6 +4,8 @@ module es.tiernoparla.bizum {
 
     requires org.controlsfx.controls;
     requires java.sql;
+    requires org.hibernate.orm.core;
+    requires jakarta.persistence;
 
     opens es.tiernoparla.bizum to javafx.fxml;
     exports es.tiernoparla.bizum;
