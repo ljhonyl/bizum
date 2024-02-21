@@ -1,6 +1,7 @@
 module es.tiernoparla.bizum {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.naming;
 
     requires org.controlsfx.controls;
     requires java.sql;
