@@ -1,7 +1,8 @@
-package es.tiernoparla.bizum.modelo.basedatos;
+package es.tiernoparla.bizum.modelo.basedatos.hibernate;
 
 import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
+import es.tiernoparla.bizum.modelo.basedatos.IMiBancoDAO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,7 +14,7 @@ import org.hibernate.query.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiBancoDAOHibernate implements IMiBancoDAO{
+public class MiBancoDAOHibernate implements IMiBancoDAO {
 
     public MiBancoDAOHibernate(){
 
@@ -63,12 +64,36 @@ public class MiBancoDAOHibernate implements IMiBancoDAO{
 
     @Override
     public List<CuentaBancaria> getCuentasBancarias(int idUsuario) {
-        return null;
+        List<CuentaBancaria> cuentas = new ArrayList<>();
+        try (Session session = HibernateUti.getSessionFactory().openSession()) {
+            // Usamos parámetros nombrados en la consulta para evitar SQL Injection
+            Query<CuentaBancaria> query = session.createQuery(
+                    "SELECT cb FROM CuentaBancaria cb WHERE cb.cuentaUsuario.id = :idUsuario", CuentaBancaria.class);
+            query.setParameter("idUsuario", idUsuario);
+            cuentas = query.list();
+
+            // Buscamos la cuenta con Bizum
+            int cuentaBizum = buscarCuentaConBizum(idUsuario);
+            for (CuentaBancaria cuenta : cuentas) {
+                if (cuenta.getNumCuenta() == cuentaBizum) {
+                    cuenta.setEsBizum(true);
+                    break; // Ya hemos encontrado la cuenta con Bizum, podemos salir del bucle
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cuentas;
+    }
+
+    private int buscarCuentaConBizum(int idUsuario) {
+        return -1;
     }
 
     @Override
     public List<String> comprobarContrasena(String dni) {
         List<String> datos = new ArrayList<>();
+        String consulta="SELECT id, contrasena FROM CuentaUsuario WHERE dni  = :dni";
 
         StandardServiceRegistry ssr = new StandardServiceRegistryBuilder()
                 .configure("hibernate.cfg.xml").build();
@@ -77,7 +102,7 @@ public class MiBancoDAOHibernate implements IMiBancoDAO{
         Session session = factory.openSession();
 
         try {
-            Query query = session.createQuery("SELECT Id, Contrasena FROM CuentaUsuario WHERE Dni = :dni");
+            Query query = session.createQuery(consulta);
             query.setParameter("dni", dni);
             Object[] result = (Object[]) query.uniqueResult();
 

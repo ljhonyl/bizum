@@ -2,6 +2,7 @@ package es.tiernoparla.bizum.modelo;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name="CuentasBancarias")
 public class CuentaBancaria {
@@ -11,11 +12,12 @@ public class CuentaBancaria {
     private int numCuenta;
 
     @ManyToOne
-    @JoinColumn(name = "IdCuentaUsuario", nullable = false)
+    @JoinColumn(name = "IdCuentaUsuario", referencedColumnName ="Id", nullable = false)
     private CuentaUsuario cuentaUsuario;
 
     @Column(name = "Saldo")
     private double saldo;
+    @Transient
     private boolean esBizum;
 
     public CuentaBancaria(){}

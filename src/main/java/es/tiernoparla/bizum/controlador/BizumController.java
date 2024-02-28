@@ -5,6 +5,7 @@ import es.tiernoparla.bizum.modelo.CuentaBancaria;
 import es.tiernoparla.bizum.modelo.CuentaUsuario;
 import es.tiernoparla.bizum.modelo.basedatos.IMiBancoDAO;
 import es.tiernoparla.bizum.modelo.basedatos.MiBancoDAO;
+import es.tiernoparla.bizum.modelo.basedatos.hibernate.MiBancoDAOHibernate;
 import es.tiernoparla.bizum.modelo.encriptador.HashManager;
 import es.tiernoparla.bizum.vista.IView;
 import es.tiernoparla.bizum.vista.ViewController;

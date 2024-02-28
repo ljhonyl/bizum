@@ -19,8 +19,10 @@ public class CuentaUsuario {
     private int telefono;
     @Column(name="Contrasena", nullable = false)
     private String contrasena;
-    @Column(name="CuentaBizum", nullable = false)
-    private String cuentaBizum;
+    @ManyToOne
+    @JoinColumn(name = "CuentaBizum", referencedColumnName ="NumCuenta")
+    private CuentaBancaria cuentaBizum;
+
 
     public CuentaUsuario(){}
 
@@ -62,10 +64,10 @@ public class CuentaUsuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-    public String getCuentaBizum() {
+    public CuentaBancaria getCuentaBizum() {
         return cuentaBizum;
     }
-    public void setCuentaBizum(String cuentaBizum) {
+    public void setCuentaBizum(CuentaBancaria cuentaBizum) {
         this.cuentaBizum = cuentaBizum;
     }
 }
