@@ -140,11 +140,7 @@ public class MiBancoDAO implements IMiBancoDAO{
         }
     }
 
-    /**
-     * Se agrega una nueva cuenta de usuario
-     * @param usuario cuenta a agregar
-     * @return exito si la operacion fue exitosa o no
-     */
+     @Override
     public boolean agregarCuentaUsuario(CuentaUsuario usuario) {
         boolean exito = false;
         final String QUERY = "INSERT INTO CuentasUsuarios(Dni, Nombre, Apellidos, Telefono, Contrasena) VALUES (?,?,?,?,?)";
@@ -173,22 +169,14 @@ public class MiBancoDAO implements IMiBancoDAO{
         return exito;
     }
 
-    /**
-     * Ingreso, se suma el saldo almacenado con la cantidad ingresada
-     * @param numCuenta cuenta a la que se ingresa
-     * @param cantidad cantidad que se ingresa
-     */
+    @Override
     public void ingresar(int numCuenta, double cantidad) {
         final String QUERY = "UPDATE CuentasBancarias SET Saldo=Saldo+? WHERE NumCuenta=?";
         realizarOperacion(numCuenta, cantidad, QUERY);
     }
 
 
-    /**
-     * Retiro, se resta al saldo almacenado el retiro realizado
-     * @param numCuenta cuenta a la que se retira
-     * @param cantidad cantidad que se retira
-     */
+    @Override
     public void retirar(int numCuenta, double cantidad) {
         final String QUERY = "UPDATE CuentasBancarias SET Saldo=Saldo-? WHERE NumCuenta=?";
         realizarOperacion(numCuenta, cantidad, QUERY);
@@ -214,16 +202,10 @@ public class MiBancoDAO implements IMiBancoDAO{
     }
 
 
-    /**
-     * Se realiza el bizum comprobando que la cuentas tengan cuenta de bizum asociada
-     * @param idUsaurio se buscara la CuentaBizum asociada a este usuario
-     * @param cantidad  monto
-     * @param telefono  se buscara la CuentaBizum asociado a este telefono
-     * @return exito, si la operacion fue exitosa o no
-     */
-    public int hacerBizum(int idUsaurio, int telefono, double cantidad) {
+    @Override
+    public int hacerBizum(int idUsuario, int telefono, double cantidad) {
         int exito=-1;
-        int numCuentaEmisor=buscarCuentaConBizum(idUsaurio);
+        int numCuentaEmisor=buscarCuentaConBizum(idUsuario);
         int numCuentaReceptor = buscarCuentaBizumPorNumero(telefono);
         if(numCuentaEmisor!=-1 && numCuentaReceptor!=-1){
             double saldo=comprobarSaldoCuentaBizum(numCuentaEmisor);
@@ -313,11 +295,7 @@ public class MiBancoDAO implements IMiBancoDAO{
         return cuentaBizum;
     }
 
-    /**
-     * Select de contraseña para el inicio de sesion pasandole el dni
-     * @param dni identificador de usuario por el que se realiza la busqueda
-     * @return datos, con el id y contraseña almacenada del usuario si los hubiera
-     */
+    @Override
     public List<String> comprobarContrasena(String dni) {
         List<String> datos = new ArrayList<>();
         final String QUERY = "SELECT Id ,Contrasena FROM CuentasUsuarios WHERE Dni=?";
@@ -338,12 +316,7 @@ public class MiBancoDAO implements IMiBancoDAO{
         return datos;
     }
 
-    /**
-     * Seleccion de las cuentas bancarias del usuario actual y comprobacion de si alguna cuenta es
-     * una cuenta seleccionada como con bizum
-     * @param idUsuario id del usuario que ha iniciado sesion
-     * @return cuentas, cuentas con numero de cuenta, saldo y si es una cuenta con bizum
-     */
+    @Override
     public List<CuentaBancaria> getCuentasBancarias(int idUsuario) {
         final String QUERY = "SELECT NumCuenta, Saldo FROM CuentasBancarias WHERE IdCuentaUsuario=?";
         List<CuentaBancaria> cuentas = new ArrayList<>();
@@ -372,11 +345,7 @@ public class MiBancoDAO implements IMiBancoDAO{
         return cuentas;
     }
 
-    /**
-     * Seteo del campo CuentaBizum
-     * @param numeroCuenta Cuenta que pasara a funcionar con bizum
-     * @param idUsuario Cuenta de usuario al que pertenece la cuenta
-     */
+    @Override
     public void seleccionarCuentaBizum(int numeroCuenta, int idUsuario) {
         final String QUERY = "UPDATE CuentasUsuarios SET CuentaBizum=? WHERE Id=?";
         try (Connection conn = conectarBD(URL_BD)) {
@@ -401,11 +370,7 @@ public class MiBancoDAO implements IMiBancoDAO{
     }
 
 
-    /**
-     * Select de nombre y apellidos del dueño del numero receptor al realizar un bizum
-     * @param telefono Campo por el que se busca
-     * @return nombre, nombre del beneficiario o vacio si el numero no esta registrado
-     */
+    @Override
     public String getNombreBeneficiario(int telefono) {
         final String QUERY = "SELECT Nombre, Apellidos FROM CuentasUsuarios WHERE Telefono=?";
         String nombre="";
@@ -423,18 +388,14 @@ public class MiBancoDAO implements IMiBancoDAO{
         return nombre;
     }
 
-    /**
-     * Se aagrega una cuenta bancaria a la tabla
-     * @param saldo dinero inicial en la cuenta
-     * @param idUsuario dueño de la cuenta
-     */
-    public boolean agregarCuentaBancaria(int idUsuario, double saldo) {
+    @Override
+    public boolean agregarCuentaBancaria(int cuentaUsuario, double saldo) {
         final String QUERY = "INSERT INTO CuentasBancarias (IdCuentaUsuario, Saldo) VALUES (?, ?)";
         boolean exito=false;
         try (Connection conn = conectarBD(URL_BD)){
             conn.setAutoCommit(false);
             try (PreparedStatement ps = conn.prepareStatement(QUERY)) {
-                ps.setInt(1, idUsuario);
+                ps.setInt(1, cuentaUsuario);
                 ps.setDouble(2, saldo);
                 ps.executeUpdate();
                 conn.commit();

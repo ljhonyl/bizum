@@ -74,7 +74,7 @@ public class MiBancoDAOHibernate implements IMiBancoDAO {
         int numCuentaReceptor = buscarCuentaBizumPorNumero(telefono);
 
         if (numCuentaEmisor != -1 && numCuentaReceptor != -1) {
-            double saldo = comprobarSaldoCuentaBizum(numCuentaEmisor);
+            double saldo = comprobarSaldoCuenta(numCuentaEmisor);
 
             if (saldo >= cantidad) {
                 retirar(numCuentaEmisor, cantidad);
@@ -221,11 +221,11 @@ public class MiBancoDAOHibernate implements IMiBancoDAO {
         final String QUERY = "SELECT cu.cuentaBizum FROM CuentaUsuario cu WHERE cu.telefono = :telefono";
         int cuentaBizum = -1;
         try (Session session = HibernateUti.getSessionFactory().openSession()) {
-            Query query = session.createQuery(QUERY);
+            Query<CuentaBancaria> query = session.createQuery(QUERY);
             query.setParameter("telefono", telefono);
-            Object result = query.uniqueResult();
-            if (result != null) {
-                cuentaBizum = (int) result;
+            CuentaBancaria cuentaBancaria = query.uniqueResult();
+            if (cuentaBancaria != null) {
+                cuentaBizum = cuentaBancaria.getNumCuenta();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,7 +233,7 @@ public class MiBancoDAOHibernate implements IMiBancoDAO {
         return cuentaBizum;
     }
 
-    private double comprobarSaldoCuentaBizum(int numCuentaEmisor) {
+    private double comprobarSaldoCuenta(int numCuentaEmisor) {
         final String QUERY = "SELECT cb.saldo FROM CuentaBancaria cb WHERE cb.numCuenta = :numCuentaEmisor";
         double saldo = -1;
         try (Session session = HibernateUti.getSessionFactory().openSession()) {
