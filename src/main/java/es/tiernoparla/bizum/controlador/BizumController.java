@@ -26,7 +26,7 @@ public class BizumController extends Application {
     private HashManager encriptador;
 
     public BizumController() {
-        miBancoDAO=new MiBancoDAO();
+        miBancoDAO=new MiBancoDAOHibernate();
         encriptador=new HashManager();
     }
 

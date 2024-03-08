@@ -4,7 +4,7 @@
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/MiBancoH?createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/MiBancoHibernate?createDatabaseIfNotExist=true</property>
         <property name="connection.username">jhony</property>
         <property name="connection.password">password</property>
         <mapping class="es.tiernoparla.bizum.modelo.CuentaUsuario"/>

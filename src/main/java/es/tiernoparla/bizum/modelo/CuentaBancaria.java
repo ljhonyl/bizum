@@ -27,6 +27,13 @@ public class CuentaBancaria {
         this.saldo=saldo;
         esBizum=false;
     }
+    public CuentaBancaria(double saldo, int idUsuario){
+        this.saldo=saldo;
+        this.cuentaUsuario=new CuentaUsuario(1);
+    }
+    public  CuentaBancaria(int numCuenta){
+        this.numCuenta=numCuenta;
+    }
 
     public int getNumCuenta(){
         return numCuenta;

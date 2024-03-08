@@ -14,5 +14,5 @@ public interface IMiBancoDAO {
     public List<CuentaBancaria> getCuentasBancarias(int idUsuario);
     List<String> comprobarContrasena(String dni);
     void seleccionarCuentaBizum(int numeroCuenta, int idUsuario);
-    String getNombreBeneficiario(int numero);
+    String getNombreBeneficiario(int telefono);
 }

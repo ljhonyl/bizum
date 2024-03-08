@@ -12,10 +12,7 @@ public class HibernateUti {
 
     static {
         try {
-            // Crear el registro de servicios estándar
-            StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-                    .configure("hibernate.cfg.xml") // Ruta a tu archivo de configuración
-                    .build();
+            StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder().configure("hibernate.cfg.xml").build();
             // Crear el objeto MetadataSources
             MetadataSources metadataSources = new MetadataSources(standardRegistry);
             // Crear el objeto Metadata usando las fuentes de metadatos

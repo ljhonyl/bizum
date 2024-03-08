@@ -34,6 +34,10 @@ public class CuentaUsuario {
         this.contrasena = contrasena;
     }
 
+    public CuentaUsuario(int id){
+        this.id=id;
+    }
+
     public String getDni() {
         return dni;
     }
